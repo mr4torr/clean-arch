@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+APP=$(docker container ls | awk "/-$1-/ {print \$(NF)}")
+# docker exec -it -u $UID $APP bash -c "$2"
+docker exec -it $APP bash -c "$2"

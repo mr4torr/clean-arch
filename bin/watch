@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# ignore o continue do Ctrl+c (SIGINT)
+trap 'continue' SIGINT
+
+# Diretórios a serem monitorados
+echo "[Watch] start: =============================================================="
+
+# Tempo de espera entre as execuções
+DEBOUNCE_DELAY=3
+# ENGINE=kubectl
+ENGINE=docker
+
+APP_DIR="$(pwd)"
+
+declare -A APPS
+# Função para monitorar o diretório e reiniciar
+main() {
+    local folder=$1
+    local container=$2
+    local last_exec_time=0
+    local current_time=$(date +%s)
+
+    fswatch --event=4 -r "$folder" | while read filename; do
+        if [[ "$filename" =~ \.php$ || "$filename" =~ \.yaml$ ]]; then
+            current_time=$(date +%s)
+             if (( (current_time - last_exec_time) >= DEBOUNCE_DELAY )); then
+                # Atualiza o timestamp da última execução
+                last_exec_time=$current_time
+
+                SHORT_PATH="${filename//"$APP_DIR/"/}"
+                DATE=$(date --iso-8601=seconds)
+                echo "[$DATE] changed.$container: $SHORT_PATH"
+
+                # Executa o comando ./bin/restart e suprime qualquer saída
+                if [ "all" = $container ]; then
+                    bash $APP_DIR/bin/restart app $ENGINE &> /dev/null
+                    # bash $APP_DIR/bin/restart app-auth $ENGINE &> /dev/null
+                    # if [ "kubectl" != $ENGINE ]; then
+                    #     bash $APP_DIR/bin/restart web $ENGINE &> /dev/null
+                    # fi
+                else
+                    bash $APP_DIR/bin/restart $container $ENGINE &> /dev/null
+                fi
+            fi
+        fi
+    done
+}
+
+# Rodando monitoramento em paralelo para os dois diretórios
+main "./apps" "app" &
+main "./src" "app" &
+main "./config" "app" &
+# main "./apps/Auth" "app-auth" &
+# main "./src" "all" &
+# main "./config" "all" &
+
+# # Espera os processos em segundo plano
+wait
+
+# Habilita Ctrl+c
+trap SIGINT
+
+echo "[Watch] end: =============================================================="

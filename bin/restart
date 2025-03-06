@@ -1,0 +1,4 @@
+#!/bin/bash
+
+str="${1/_/-}"
+docker container restart $(docker container ls | awk "/-$str-/ {print \$(NF)}")
