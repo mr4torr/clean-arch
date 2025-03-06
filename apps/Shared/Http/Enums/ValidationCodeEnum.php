@@ -18,6 +18,7 @@ enum ValidationCodeEnum: int implements JsonSerializable
     case DIFFERENT_VALUE = 2008;
     case LOGIN_INVALID = 2009;
     case TOKEN_INVALID = 2010;
+    case PASSWORDS_NOT_MATCH = 2011;
 
     // CONTEXT 21XX
     case CONTEXT_UNAUTHORIZED = 2110;
@@ -33,6 +34,7 @@ enum ValidationCodeEnum: int implements JsonSerializable
             self::NOT_VERIFIED => "Usuário não ativado, verifique seu e-mail.",
             self::NOT_FOUND => "validations.not_found",
             self::EMPTY => "validations.empty",
+            self::PASSWORDS_NOT_MATCH => "validations.passwords_not_match",
             self::NOT_EMPTY => "validations.not_empty",
             self::TOKEN_INVALID => "Token inválido",
             self::CHECK_EMAIL_FOR_RESET => "Enviamos recentemente instruções para esse e-mail.",

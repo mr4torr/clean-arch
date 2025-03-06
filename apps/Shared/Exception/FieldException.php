@@ -14,6 +14,6 @@ class FieldException extends BusinessException
         ErrorCodeEnum $errorCode = ErrorCodeEnum::VALIDATION_FIELDS,
         ?Throwable $previous = null
     ) {
-        parent::__construct($errorCode, "", $previous);
+        parent::__construct($errorCode, json_encode($fields), $previous);
     }
 }

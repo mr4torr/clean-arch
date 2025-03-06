@@ -17,7 +17,7 @@ final class SignUpDto
         public readonly ProviderEnum $provider = ProviderEnum::API
     ) {}
 
-    public function make(string $name, string $email, string $password, string $provider)
+    public static function make(string $name, string $email, string $password, string $provider)
     {
         return new self($name, new Email($email), new Password($password), ProviderEnum::tryFrom($provider));
     }
