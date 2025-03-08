@@ -4,7 +4,6 @@ services:
     # user: "${UID}:${GID}"
     build:
       context: .
-      dockerfile: .devcontainer/Dockerfile
     volumes:
       - ./:/opt/www
     ports:
@@ -14,6 +13,20 @@ services:
     environment:
       - APP_ENV=dev
       - SCAN_CACHEABLE=false
+      - APP_NAME=app
+      - DB_DRIVER=pgsql
+      # - DB_HOST=127.0.0.1
+      - DB_HOST=pgsql
+      - DB_PORT=5432
+      - DB_DATABASE=app
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=root
+      - DB_CHARSET=utf8
+      - DB_PREFIX=
+      - REDIS_HOST=valkey
+      - REDIS_AUTH=(null)
+      - REDIS_PORT=6379
+      - REDIS_DB=0
 
   pgsql:
     image: postgres:17.4-alpine
@@ -23,7 +36,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
     volumes:
       - database_data:/var/lib/postgresql/data:rw
-      # - ".devcontainer/database/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql"
+    # ports:
+    #   - 5432:5432
     networks:
       - hyperf
     healthcheck:

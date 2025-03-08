@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Auth\Domain\Entity;
 
-use ArrayAccess;
 use JsonSerializable;
+use Shared\Support\HashInterface;
 use Auth\Domain\Enum\ProviderEnum;
 use Auth\Domain\ValueObject\Password;
-use Symfony\Component\Uid\Ulid; // esse é um pacote isolado
 
 class Credential implements JsonSerializable
 {
@@ -17,7 +16,7 @@ class Credential implements JsonSerializable
 
     private function __construct(
         public readonly string $id,
-        #[\SensitiveParameter] public readonly string $password,
+        public readonly string $hash,
         public readonly string $userId,
         public readonly string $provider
     ) {}
@@ -28,11 +27,12 @@ class Credential implements JsonSerializable
     // }
 
     public static function new(
+        HashInterface $hasher,
         string $userId,
-        #[\SensitiveParameter] Password $password,
+        Password $hash,
         ProviderEnum $provider = ProviderEnum::API
     ): self {
-        return new self(Ulid::generate(), (string) $password, $userId, $provider->value);
+        return new self($hasher->generate(), (string) $hash, $userId, $provider->value);
     }
 
     public function toArray(): array
@@ -40,7 +40,7 @@ class Credential implements JsonSerializable
         return [
             "id" => $this->id,
             "userId" => $this->userId,
-            "password" => $this->password,
+            "hash" => $this->hash,
             "provider" => $this->provider,
         ];
     }
@@ -48,7 +48,7 @@ class Credential implements JsonSerializable
     public function jsonSerialize(): array
     {
         $results = $this->toArray();
-        unset($results["password"]);
+        unset($results["hash"]);
         return $results;
     }
 }

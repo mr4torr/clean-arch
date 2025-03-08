@@ -1,0 +1,13 @@
+@host=http://localhost:9501
+@createdAt = {{$datetime iso8601}}
+@modifiedBy = {{$processEnv USERNAME}}
+@contentType = application/json
+
+###
+GET {{host}}/
+content-type: {{contentType}}
+
+
+###
+GET {{host}}/health
+content-type: {{contentType}}

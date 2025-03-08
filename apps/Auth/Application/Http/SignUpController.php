@@ -26,7 +26,8 @@ class SignUpController extends AbstractController
             throw new FieldException($validator->errors()->getMessages());
         }
 
-        $service->make($this->request->getContentMapped(SignUpDto::class));
+        $dto = $this->request->getContentMapped(SignUpDto::class);
+        $service->make($dto);
 
         return $this->response->success("Usuário criado com sucesso", SuccessCodeEnum::CREATED);
     }

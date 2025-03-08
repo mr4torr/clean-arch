@@ -8,9 +8,13 @@ use Psr\Log\LogLevel;
 use function Hyperf\Support\env;
 
 return [
-    "app_name" => env("APP_NAME", "skeleton"),
-    "app_env" => env("APP_ENV", "dev"),
-    "scan_cacheable" => env("SCAN_CACHEABLE", false),
+    'app_name' => env('APP_NAME', 'skeleton'),
+    'app_timezone' => env('TIMEZONE', 'UTC'),
+    'app_url' => env('APP_URL', 'http://localhost'),
+    // 'app_url_api' => env('APP_URL_API', 'http://localhost:9501'),
+    'app_env' => env('APP_ENV', 'dev'),
+    'secret' => env('SECRET', 'base64:3J6Q6Z3Z'),
+    'scan_cacheable' => env('SCAN_CACHEABLE', false),
     StdoutLoggerInterface::class => [
         "log_level" => match (env("APP_ENV")) {
             "prod" => [LogLevel::ALERT, LogLevel::CRITICAL, LogLevel::EMERGENCY, LogLevel::ERROR],

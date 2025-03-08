@@ -9,7 +9,7 @@ use Auth\Domain\ValueObject\Email;
 
 interface UserDaoInterface
 {
-    public function create(User $user): void;
-
+    public function create(User $user): bool;
+    public function delete(string $id): bool;
     public function emailAlreadyExists(Email $email): bool;
 }

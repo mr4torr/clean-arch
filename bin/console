@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+APP=$(docker container ls | awk "/-app-/ {print \$(NF)}")
+
+docker exec -it $APP bash -c "chmod 777 -R runtime/container"
+docker exec --user 1000 -it $APP php bin/hyperf.php $@

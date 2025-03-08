@@ -10,15 +10,20 @@ use Auth\Domain\Dao\CredentialDaoInterface;
 
 class CredentialDao implements CredentialDaoInterface
 {
-    private const TABLE_NAME = "auth_credenciais";
+    private const TABLE_NAME = "auth_credentials";
 
-    public function create(Credential $credencial): void
+    public function delete(string $id): bool
     {
-        // Db::table(self::TABLE_NAME)->insert([
-        //     "id" => $credencial->id,
-        //     "userId" => $credencial->userId,
-        //     "provider" => $credencial->provider->value,
-        //     "password" => $credencial->password,
-        // ]);
+        return Db::table(self::TABLE_NAME)->delete($id) > 0;
+    }
+
+    public function create(Credential $credencial): bool
+    {
+        return Db::table(self::TABLE_NAME)->insert([
+            "id" => $credencial->id,
+            "user_id" => $credencial->userId,
+            "provider" => $credencial->provider,
+            "hash" => $credencial->hash,
+        ]);
     }
 }

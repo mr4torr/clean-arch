@@ -30,7 +30,7 @@ enum ValidationCodeEnum: int implements JsonSerializable
     public function get(): string
     {
         return match ($this) {
-            self::DUPLICATED => "Registro já existe",
+            self::DUPLICATED => "validations.duplicated",
             self::NOT_VERIFIED => "Usuário não ativado, verifique seu e-mail.",
             self::NOT_FOUND => "validations.not_found",
             self::EMPTY => "validations.empty",

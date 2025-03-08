@@ -1,0 +1,26 @@
+@host=localhost
+@createdAt = {{$datetime iso8601}}
+@modifiedBy = {{$processEnv USERNAME}}
+@contentType = application/json
+
+Host: {{ host }}
+Content-Type: {{ contentType }}
+
+
+###
+
+GET {{host}}/authenticate HTTP/1.1
+content-type: {{contentType}}
+
+###
+
+POST /auth/register
+Host: {{ host }}
+Content-Type: {{ contentType }}
+
+{
+    "name": "Adminsd",
+    "email": "admin@example.com",
+    "password": "P@ssw0rD",
+    "password_confirmation": "P@ssw0rD"
+}

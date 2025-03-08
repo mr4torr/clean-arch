@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace HyperfTest\Apps\Auth\Domain;
+namespace HyperfTest\Apps\Auth\Domain\ValueObject;
 
 use Hyperf\Testing\TestCase;
 use Auth\Domain\ValueObject\Email;

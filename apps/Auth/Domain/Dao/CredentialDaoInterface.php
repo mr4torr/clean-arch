@@ -8,5 +8,6 @@ use Auth\Domain\Entity\Credential;
 
 interface CredentialDaoInterface
 {
-    public function create(Credential $credencial): void;
+    public function create(Credential $credencial): bool;
+    public function delete(string $id): bool;
 }

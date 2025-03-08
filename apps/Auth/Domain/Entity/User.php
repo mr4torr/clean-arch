@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Auth\Domain\Entity;
 
-use Auth\Domain\ValueObject\Email;
 use JsonSerializable;
-use Symfony\Component\Uid\Ulid; // esse é um pacote isolado
+use Shared\Support\HashInterface;
+use Auth\Domain\ValueObject\Email;
 
 class User implements JsonSerializable
 {
@@ -21,9 +21,9 @@ class User implements JsonSerializable
     //     return new self(...func_get_args());
     // }
 
-    public static function new(string $name, Email $email): self
+    public static function new(HashInterface $id, string $name, Email $email): self
     {
-        return new self(Ulid::generate(), $name, (string) $email);
+        return new self($id->generate(), $name, (string) $email);
     }
 
     public function toArray(): array

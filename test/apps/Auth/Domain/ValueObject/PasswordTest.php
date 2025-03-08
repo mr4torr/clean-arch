@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 
-namespace HyperfTest\Apps\Auth\Domain;
+namespace HyperfTest\Apps\Auth\Domain\ValueObject;
 
 use Auth\Domain\Dao\CredentialDaoInterface;
 use Auth\Domain\Dao\UserDaoInterface;
