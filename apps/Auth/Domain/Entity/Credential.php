@@ -17,7 +17,7 @@ class Credential implements JsonSerializable
     public function __construct(
         private string $id,
         private string $hash,
-        private string $userId,
+        private string $user_id,
         private ProviderEnum $provider = ProviderEnum::API,
         private bool $status = true,
         private ?DateTimeInterface $created_at = null,
@@ -60,7 +60,7 @@ class Credential implements JsonSerializable
     {
         return [
             "id" => $this->getId(),
-            "userId" => $this->getUserId(),
+            "user_id" => $this->getUserId(),
             "provider" => $this->getProvider(),
             "status" => $this->getStatus(),
             "created_at" => $this->getCreatedAt(),
@@ -77,7 +77,7 @@ class Credential implements JsonSerializable
     }
 
     public function getUserId (): string {
-        return $this->userId;
+        return $this->user_id;
     }
 
     public function getProvider (): ProviderEnum {

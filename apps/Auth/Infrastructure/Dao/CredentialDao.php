@@ -18,6 +18,13 @@ class CredentialDao implements CredentialDaoInterface
         return Db::table(self::TABLE_NAME)->delete($id) > 0;
     }
 
+    public function findByUserId(string $id, array $columns = ['*']): ?Credential
+    {
+        return $this->resource(
+            Db::table(self::TABLE_NAME)->where('user_id', '=', (string) $id)->first($columns)
+        );
+    }
+
     public function create(Credential $credencial): bool
     {
         return Db::table(self::TABLE_NAME)->insert([
@@ -29,5 +36,10 @@ class CredentialDao implements CredentialDaoInterface
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
+    }
+
+    private function resource(?object $resource): ?Credential
+    {
+        return $resource ? Credential::instance((array) $resource) : null;
     }
 }

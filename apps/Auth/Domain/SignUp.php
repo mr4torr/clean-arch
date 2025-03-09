@@ -40,10 +40,10 @@ class SignUp
                 throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, "auth.error.sign_up_user");
             }
             $credential = new Credential(
-                    $this->hash->generate(),
-                    $user->getId(),
-                    (string) $input->password,
-                    $input->provider
+                    id: $this->hash->generate(),
+                    user_id: $user->getId(),
+                    hash: (string) $input->password,
+                    provider: $input->provider
             );
             if (!$this->credentialDao->create($credential)) {
                 throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, "auth.error.sign_up_credential");

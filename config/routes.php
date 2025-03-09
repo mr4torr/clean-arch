@@ -20,10 +20,10 @@ Router::addServer("http", function () {
 
     Router::addGroup("/auth", function () {
         Router::post("/register", "Auth\Application\Http\SignUpController");
-        // Router::post("/login", "App\Controller\AuthController@login");
         Router::post("/verify", "Auth\Application\Http\VerifyController");
         Router::post("/reverify", "Auth\Application\Http\ReverifyController");
-        // Router::post("/forgot", "App\Controller\AuthController@forgot");
+        Router::post("/forgot", "Auth\Application\Http\ForgotController");
+        Router::post("/login", "Auth\Application\Http\SignInController");
         // Router::post("/reset", "App\Controller\AuthController@reset");
         // Router::post("/refresh", "App\Controller\AuthController@refresh");
     });

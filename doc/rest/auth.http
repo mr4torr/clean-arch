@@ -14,13 +14,24 @@ content-type: {{contentType}}
 
 ###
 
+POST /auth/login
+Host: {{ host }}
+Content-Type: {{ contentType }}
+
+{
+    "email": "admin4@example.com",
+    "password": "P@ssw0rD",
+}
+
+###
+
 POST /auth/register
 Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
     "name": "Admin",
-    "email": "admin1@example.com",
+    "email": "admin4@example.com",
     "password": "P@ssw0rD",
     "password_confirmation": "P@ssw0rD"
 }
