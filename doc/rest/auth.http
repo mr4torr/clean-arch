@@ -20,7 +20,17 @@ Content-Type: {{ contentType }}
 
 {
     "name": "Admin",
-    "email": "admin@example.com",
+    "email": "admin1@example.com",
     "password": "P@ssw0rD",
     "password_confirmation": "P@ssw0rD"
+}
+
+###
+
+POST /auth/verify
+Host: {{ host }}
+Content-Type: {{ contentType }}
+
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YTlpYRVlQTkdHWloyN1JZTTlCMjkyIiwiaWF0IjoxNzQxNTMxNjQxLCJleHAiOjE3NDE1MzM0NDF9.hEbVHl30QJAeoy1nVhVJzKS8d8THgbzsxILoymWNESs"
 }

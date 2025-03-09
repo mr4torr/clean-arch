@@ -27,9 +27,11 @@ class UserDao implements UserDaoInterface
         ]) > 0;
     }
 
-    public function find(string $id): ?User
+    public function find(string $id, array $columns = ['*']): ?User
     {
-        return Db::table(self::TABLE_NAME)->find($id);
+        $resource = Db::table(self::TABLE_NAME)->find($id, $columns);
+        ds($resource);
+        return $resource ? User::instance((array) $resource) : null;
     }
 
     public function create(User $user): bool

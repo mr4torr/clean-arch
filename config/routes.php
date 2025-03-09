@@ -21,7 +21,7 @@ Router::addServer("http", function () {
     Router::addGroup("/auth", function () {
         Router::post("/register", "Auth\Application\Http\SignUpController");
         // Router::post("/login", "App\Controller\AuthController@login");
-        // Router::post("/verify", "App\Controller\AuthController@verify");
+        Router::post("/verify", "Auth\Application\Http\VerifyController");
         // Router::post("/reverify", "App\Controller\AuthController@reverify");
         // Router::post("/forgot", "App\Controller\AuthController@forgot");
         // Router::post("/reset", "App\Controller\AuthController@reset");

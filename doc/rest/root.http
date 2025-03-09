@@ -1,4 +1,4 @@
-@host=http://localhost:9501
+@host=http://localhost
 @createdAt = {{$datetime iso8601}}
 @modifiedBy = {{$processEnv USERNAME}}
 @contentType = application/json

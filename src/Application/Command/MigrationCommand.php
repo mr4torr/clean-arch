@@ -8,6 +8,7 @@ use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Command\Concerns\Confirmable;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 #[Command]
 class MigrationCommand extends HyperfCommand
@@ -28,6 +29,7 @@ class MigrationCommand extends HyperfCommand
     {
         parent::configure();
         $this->setDescription("Run the database migrations for a specific domain");
+        $this->addOption('table', 't', InputOption::VALUE_OPTIONAL, 'Informe o nome da migration');
     }
 
     public function handle()
@@ -39,10 +41,13 @@ class MigrationCommand extends HyperfCommand
         $domain = $this->input->getArgument("domain");
         $argName = $this->input->getArgument("name");
 
-        $this->call("gen:migration", [
-            // "command" => "gen:migration",
-            "--path" => "migrations/$domain",
-            "name" => $argName,
-        ]);
+        $arguments = ["--path" => "migrations/$domain"];
+        if ($table = $this->input->getOption('table')) {
+            $arguments['--table'] = $table;
+        }
+
+        $arguments["name"] = $argName;
+
+        $this->call("gen:migration", $arguments);
     }
 }

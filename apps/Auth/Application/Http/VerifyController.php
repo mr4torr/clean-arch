@@ -14,6 +14,6 @@ class VerifyController extends AbstractController
     {
         $this->request->validate([ "token" => "required" ]);
         $service->make($this->request->get('token'));
-        return $this->response->success("Usuário criado com sucesso");
+        return $this->response->success("Usuário ativado");
     }
 }

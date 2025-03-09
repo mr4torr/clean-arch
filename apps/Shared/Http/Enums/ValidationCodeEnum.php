@@ -18,7 +18,8 @@ enum ValidationCodeEnum: int implements JsonSerializable
     case DIFFERENT_VALUE = 2008;
     case LOGIN_INVALID = 2009;
     case TOKEN_INVALID = 2010;
-    case PASSWORDS_NOT_MATCH = 2011;
+    case TOKEN_EXPIRED = 2011;
+    case PASSWORDS_NOT_MATCH = 2012;
 
     // CONTEXT 21XX
     case CONTEXT_UNAUTHORIZED = 2110;
@@ -36,7 +37,7 @@ enum ValidationCodeEnum: int implements JsonSerializable
             self::EMPTY => "validations.empty",
             self::PASSWORDS_NOT_MATCH => "validations.passwords_not_match",
             self::NOT_EMPTY => "validations.not_empty",
-            self::TOKEN_INVALID => "Token inválido",
+            self::TOKEN_INVALID => "validations.token_invalid",
             self::CHECK_EMAIL_FOR_RESET => "Enviamos recentemente instruções para esse e-mail.",
             self::DIFFERENT_VALUE => "validations.different_value",
             self::LOGIN_INVALID => "Email ou senha inválida",
@@ -44,6 +45,7 @@ enum ValidationCodeEnum: int implements JsonSerializable
             self::CONTEXT_AUTHORIZED_ADMIN => "Apenas administradores e proprietários podem convidar usuários",
             self::INVITATION_NOT_BELONG_TO_USER => "O convite não pertende a esse usuário",
             self::INVITATION_USER_IS_ALREADY_TEAM => "O usuário já faz parte da equipe",
+            self::TOKEN_EXPIRED => "validations.token_expired",
         };
     }
 

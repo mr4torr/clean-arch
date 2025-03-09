@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Auth\Infrastructure\Event;
+namespace Auth\Infrastructure\Listener;
 
+use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
-use Auth\Domain\Event\SendConfirmationEmailEvent;
 use Shared\Mailer\MailerInterface;
+use Auth\Domain\Event\SendConfirmationEmailEvent;
 
+#[Listener]
 class SendEmailListener implements ListenerInterface
 {
     public function __construct(private MailerInterface $mailer)

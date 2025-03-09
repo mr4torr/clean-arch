@@ -35,11 +35,16 @@ class SignUp
         }
 
         try {
-            $user = User::new($this->hash, $input->name, $input->email);
+            $user = new User($this->hash->generate(), $input->name, $input->email);
             if (!$this->userDao->create($user)) {
                 throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, "auth.error.sign_up_user");
             }
-            $credential = Credential::new($this->hash, $user->getId(), $input->password, $input->provider);
+            $credential = new Credential(
+                    $this->hash->generate(),
+                    $user->getId(),
+                    (string) $input->password,
+                    $input->provider
+            );
             if (!$this->credentialDao->create($credential)) {
                 throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, "auth.error.sign_up_credential");
             }
