@@ -20,7 +20,7 @@ Content-Type: {{ contentType }}
 
 {
     "email": "admin@example.com",
-    "password": "P@ssw0rD"
+    "password": "P@ssw0rD123"
 }
 
 ###
@@ -68,12 +68,26 @@ Content-Type: {{ contentType }}
 
 
 ###
+
+
 POST /auth/reset
 Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YSDQzODE2VzlWREpLNzAyQlpCVDg3IiwiaWF0IjoxNzQxNTYxMDQ2LCJleHAiOjE3NDE1NjI4NDZ9.y2EIAJxN6BjoYbq8nTkM8P6R-1DkNSy3BrYOZIq3cqk",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YSDQzODE2VzlWREpLNzAyQlpCVDg3IiwiaWF0IjoxNzQxNTYzNzA0LCJleHAiOjE3NDE1NjU1MDR9.7grQj82U4jbAkR-D8YjZKuo3O1u5n0mr-A1uvvGSrB8",
     "password": "P@ssw0rD123",
     "password_confirmation": "P@ssw0rD123"
+}
+
+
+###
+
+
+POST /auth/refresh
+Host: {{ host }}
+Content-Type: {{ contentType }}
+
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YSDQzODE2VzlWREpLNzAyQlpCVDg3IiwiaWF0IjoxNzQxNTYzODMxLCJleHAiOjE3NDE1NjU2MzEsInJlZnJlc2giOnRydWV9.XMNk3DEEuZ2xXp4k0ZeqLHFt48-MYqRWjMj4lpBucWQ"
 }

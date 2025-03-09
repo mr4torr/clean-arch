@@ -27,6 +27,7 @@ class TokenLogic
         $accessToken = $this->token->encode($tokenPayload);
         $refreshToken = $this->token->encode([
             ...$tokenPayload,
+            'refresh' => true,
             'exp' => time() + self::REFRESH_JWT_TTL
         ]);
 

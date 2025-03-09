@@ -54,11 +54,11 @@ class HttpExceptionHandler extends ExceptionHandler implements AppExceptionInter
                 ];
                 break;
             case BusinessException::class:
-                $code = ErrorCodeEnum::BAD_REQUEST->get();
+                $errorCode = $throwable->errorCode->get();
                 $statusCode = $throwable->getCode();
                 $content = [
-                    "code" => $code->statusCode->value,
-                    "message" => $code->message,
+                    "code" => $errorCode->statusCode->value,
+                    "message" => $errorCode->message,
                     "data" => $throwable->getMessage(),
                 ];
                 break;

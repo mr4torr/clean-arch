@@ -22,7 +22,7 @@ class CredentialDao implements CredentialDaoInterface
     public function findByUserId(string $id, array $columns = ['*']): ?Credential
     {
         return $this->resource(
-            Db::table(self::TABLE_NAME)->where('user_id', '=', (string) $id)->first($columns)
+            Db::table(self::TABLE_NAME)->where('user_id', (string) $id)->where('status', true)->first($columns)
         );
     }
 

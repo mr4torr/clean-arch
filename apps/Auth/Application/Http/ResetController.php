@@ -18,7 +18,7 @@ class ResetController extends AbstractController
             "password" => "required|min:8|confirmed",
         ]);
 
-        $resource = $service->make(
+        $service->make(
             $this->request->get('token'),
             new Password($this->request->get('password'))
         );
