@@ -27,7 +27,7 @@ class Verify
         }
 
         if ($user->getEmailVerifiedAt() !== null) {
-            throw new FieldException(['token' => ValidationCodeEnum::NOT_VERIFIED]);
+            throw new FieldException(['token' => ValidationCodeEnum::VERIFIED]);
         }
 
         $this->userDao->verified($user);

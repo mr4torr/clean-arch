@@ -32,5 +32,25 @@ Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YTlpYRVlQTkdHWloyN1JZTTlCMjkyIiwiaWF0IjoxNzQxNTMxNjQxLCJleHAiOjE3NDE1MzM0NDF9.hEbVHl30QJAeoy1nVhVJzKS8d8THgbzsxILoymWNESs"
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YSDQzODE2VzlWREpLNzAyQlpCVDg3IiwiaWF0IjoxNzQxNTQwNjc3LCJleHAiOjE3NDE1NDI0Nzd9.SgSbfPrkW0VKfofe_dRcWHIbYw9hvsE_p_e8j9aE56g"
+}
+
+###
+
+POST /auth/reverify
+Host: {{ host }}
+Content-Type: {{ contentType }}
+
+{
+    "email": "admin@example.com"
+}
+
+###
+
+POST /auth/forgot
+Host: {{ host }}
+Content-Type: {{ contentType }}
+
+{
+    "email": "admin@example.com"
 }

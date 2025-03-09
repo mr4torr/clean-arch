@@ -8,6 +8,7 @@ use Hyperf\DbConnection\Db;
 use Auth\Domain\Entity\User;
 use Auth\Domain\ValueObject\Email;
 use Auth\Domain\Dao\UserDaoInterface;
+use Auth\Domain\Enum\UserStatusEnum;
 use Carbon\Carbon;
 
 class UserDao implements UserDaoInterface
@@ -22,16 +23,24 @@ class UserDao implements UserDaoInterface
     public function verified(User $user): bool
     {
         return Db::table(self::TABLE_NAME)->where("id", $user->getId())->update([
-            "email_verified_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
+            "email_verified_at" => Carbon::now(),
+            "status" => UserStatusEnum::ACTIVE->value,
         ]) > 0;
+    }
+
+    public function findByEmail(Email $email, array $columns = ['*']): ?User
+    {
+        return $this->resource(
+            Db::table(self::TABLE_NAME)->where('email', '=', (string) $email)->first($columns)
+        );
     }
 
     public function find(string $id, array $columns = ['*']): ?User
     {
-        $resource = Db::table(self::TABLE_NAME)->find($id, $columns);
-        ds($resource);
-        return $resource ? User::instance((array) $resource) : null;
+        return $this->resource(
+            Db::table(self::TABLE_NAME)->find($id, $columns)
+        );
     }
 
     public function create(User $user): bool
@@ -48,5 +57,10 @@ class UserDao implements UserDaoInterface
     public function emailAlreadyExists(Email $email): bool
     {
         return Db::table(self::TABLE_NAME)->where("email", (string) $email)->exists();
+    }
+
+    private function resource(?object $resource): ?User
+    {
+        return $resource ? User::instance((array) $resource) : null;
     }
 }

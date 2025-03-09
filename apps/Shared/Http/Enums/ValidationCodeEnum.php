@@ -9,6 +9,7 @@ use JsonSerializable;
 enum ValidationCodeEnum: int implements JsonSerializable
 {
     // COMMON 20XX
+    case VERIFIED = 2000;
     case NOT_VERIFIED = 2001;
     case DUPLICATED = 2002;
     case NOT_FOUND = 2004;
@@ -32,6 +33,7 @@ enum ValidationCodeEnum: int implements JsonSerializable
     {
         return match ($this) {
             self::DUPLICATED => "validations.duplicated",
+            self::VERIFIED => "Usuário já ativado, caso não lembre sua senha, acesse o link de recuperação.",
             self::NOT_VERIFIED => "Usuário não ativado, verifique seu e-mail.",
             self::NOT_FOUND => "validations.not_found",
             self::EMPTY => "validations.empty",
