@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Shared\Http;
 
 use Psr\Http\Message\ServerRequestInterface;
-use ReflectionClass;
 use Shared\Support\ArrayToObject;
-use Swoole\NameResolver\Consul;
 
 abstract class AbstractRequestFactory implements RequestFactoryInterface
 {

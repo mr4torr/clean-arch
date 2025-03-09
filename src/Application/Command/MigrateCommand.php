@@ -7,11 +7,7 @@ namespace App\Application\Command;
 use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Command\Concerns\Confirmable;
-use Hyperf\Contract\ApplicationInterface;
-use Psr\Container\ContainerInterface;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 #[Command]
 class MigrateCommand extends HyperfCommand

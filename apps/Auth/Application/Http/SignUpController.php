@@ -6,25 +6,19 @@ namespace Auth\Application\Http;
 
 use Auth\Domain\SignUp;
 use Auth\Domain\Dto\SignUpDto;
+use Psr\Http\Message\ResponseInterface;
 use Shared\Http\AbstractController;
-use Shared\Exception\FieldException;
 use Shared\Http\Enums\SuccessCodeEnum;
-use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 class SignUpController extends AbstractController
 {
-    public function __invoke(SignUp $service, ValidatorFactoryInterface $validation)
+    public function __invoke(SignUp $service): ResponseInterface
     {
-        $validator = $validation->make($this->request->all(), [
+        $this->request->validate([
             "name" => "required",
-            // "email" => "required|email|unique:users,email",
-            "email" => "required|email",
+            "email" => "required|email|unique:auth_users,email",
             "password" => "required|min:8|confirmed",
         ]);
-
-        if ($validator->fails()) {
-            throw new FieldException($validator->errors()->getMessages());
-        }
 
         $dto = $this->request->getContentMapped(SignUpDto::class);
         $service->make($dto);

@@ -8,8 +8,8 @@ use Psr\Log\LogLevel;
 use function Hyperf\Support\env;
 
 return [
-    'app_name' => env('APP_NAME', 'skeleton'),
     'app_timezone' => env('TIMEZONE', 'UTC'),
+    'app_name' => env('APP_NAME', 'Tourops'),
     'app_url' => env('APP_URL', 'http://localhost'),
     // 'app_url_api' => env('APP_URL_API', 'http://localhost:9501'),
     'app_env' => env('APP_ENV', 'dev'),

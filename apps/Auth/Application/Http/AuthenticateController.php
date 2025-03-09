@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Auth\Application\Http;
 
-use Google\Api\JwtLocation;
 use Shared\Http\AbstractController;
 
 class AuthenticateController extends AbstractController

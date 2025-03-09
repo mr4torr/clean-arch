@@ -16,6 +16,12 @@ interface ResponseFactoryInterface
         ?string $message = null
     ): ResponseInterface;
 
+    /**
+     * @param array{string: string} $fields
+     * @param \Shared\Http\Enums\ErrorCodeEnum $code
+     * @param string $message
+     * @return void
+     */
     public function error(
         array $fields = [],
         ErrorCodeEnum $code = ErrorCodeEnum::BAD_REQUEST,
@@ -24,5 +30,11 @@ interface ResponseFactoryInterface
 
     public function message(ErrorCodeEnum $code, ?string $message = null): ResponseInterface;
 
+    /**
+     * @param mixed $result
+     * @param \Shared\Http\Enums\StatusCodeEnum $statusCode
+     * @param int $options
+     * @return void
+     */
     public function json($result, StatusCodeEnum $statusCode, int $options): ResponseInterface;
 }

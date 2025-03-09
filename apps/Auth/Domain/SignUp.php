@@ -39,13 +39,13 @@ class SignUp
             if (!$this->userDao->create($user)) {
                 throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, "auth.error.sign_up_user");
             }
-            $credential = Credential::new($this->hash, $user->id, $input->password, $input->provider);
+            $credential = Credential::new($this->hash, $user->getId(), $input->password, $input->provider);
             if (!$this->credentialDao->create($credential)) {
                 throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, "auth.error.sign_up_credential");
             }
         } catch (\Throwable $e) {
-            if (isset($user)) $this->userDao->delete($user->id);
-            if (isset($credential)) $this->credentialDao->delete($credential->id);
+            if (isset($user)) $this->userDao->delete($user->getId());
+            if (isset($credential)) $this->credentialDao->delete($credential->getId());
 
             throw $e;
         }

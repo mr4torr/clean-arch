@@ -18,12 +18,26 @@ class UserDao implements UserDaoInterface
     {
         return Db::table(self::TABLE_NAME)->delete($id) > 0;
     }
+
+    public function verified(User $user): bool
+    {
+        return Db::table(self::TABLE_NAME)->where("id", $user->getId())->update([
+            "email_verified_at" => Carbon::now(),
+            "updated_at" => Carbon::now(),
+        ]) > 0;
+    }
+
+    public function find(string $id): ?User
+    {
+        return Db::table(self::TABLE_NAME)->find($id);
+    }
+
     public function create(User $user): bool
     {
         return Db::table(self::TABLE_NAME)->insert([
-            "id" => $user->id,
-            "name" => $user->name,
-            "email" => $user->email,
+            "id" => $user->getId(),
+            "name" => $user->getName(),
+            "email" => $user->getEmail(),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);

@@ -11,9 +11,9 @@ services:
     networks:
       - hyperf
     environment:
-      - APP_ENV=dev
       - SCAN_CACHEABLE=false
-      - APP_NAME=app
+      - APP_ENV=dev
+      - APP_URL=http://localhost
       - DB_DRIVER=pgsql
       # - DB_HOST=127.0.0.1
       - DB_HOST=pgsql

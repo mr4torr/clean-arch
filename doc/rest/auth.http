@@ -19,7 +19,7 @@ Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "name": "Adminsd",
+    "name": "Admin",
     "email": "admin@example.com",
     "password": "P@ssw0rD",
     "password_confirmation": "P@ssw0rD"
