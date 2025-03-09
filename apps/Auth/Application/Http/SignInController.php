@@ -14,7 +14,10 @@ class SignInController extends AbstractController
 {
     public function __invoke(SignIn $service): ResponseInterface
     {
-        $this->request->validate(["email" => "required|email"]);
+        $this->request->validate([
+            "email" => "required|email",
+            "password" => "required|min:8",
+        ]);
 
         $resource = $service->make(
             new Email($this->request->get('email')),

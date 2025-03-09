@@ -19,8 +19,8 @@ Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "email": "admin4@example.com",
-    "password": "P@ssw0rD",
+    "email": "admin@example.com",
+    "password": "P@ssw0rD"
 }
 
 ###
@@ -64,4 +64,16 @@ Content-Type: {{ contentType }}
 
 {
     "email": "admin@example.com"
+}
+
+
+###
+POST /auth/reset
+Host: {{ host }}
+Content-Type: {{ contentType }}
+
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YSDQzODE2VzlWREpLNzAyQlpCVDg3IiwiaWF0IjoxNzQxNTYxMDQ2LCJleHAiOjE3NDE1NjI4NDZ9.y2EIAJxN6BjoYbq8nTkM8P6R-1DkNSy3BrYOZIq3cqk",
+    "password": "P@ssw0rD123",
+    "password_confirmation": "P@ssw0rD123"
 }

@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
 use Auth\Domain\Entity\Credential;
 use Auth\Domain\Dao\CredentialDaoInterface;
+use Auth\Domain\Enum\ProviderEnum;
 
 class CredentialDao implements CredentialDaoInterface
 {
@@ -25,17 +26,28 @@ class CredentialDao implements CredentialDaoInterface
         );
     }
 
-    public function create(Credential $credencial): bool
+    public function create(Credential $credential): bool
     {
         return Db::table(self::TABLE_NAME)->insert([
-            "id" => $credencial->getId(),
-            "user_id" => $credencial->getUserId(),
-            "provider" => $credencial->getProvider(),
-            "hash" => $credencial->getHash(),
-            "status" => $credencial->getStatus(),
+            "id" => $credential->getId(),
+            "user_id" => $credential->getUserId(),
+            "provider" => $credential->getProvider(),
+            "hash" => $credential->getHash(),
+            "status" => $credential->getStatus(),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
+    }
+
+    public function activate(string $userId, bool $status = true, ProviderEnum $provider = ProviderEnum::API): bool
+    {
+        return Db::table(self::TABLE_NAME)->where([
+            "user_id" => $userId,
+            "provider" => $provider->value,
+        ])->update([
+            "status" => $status,
+            "updated_at" => Carbon::now(),
+        ]) > 0;
     }
 
     private function resource(?object $resource): ?Credential

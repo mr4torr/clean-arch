@@ -21,6 +21,7 @@ enum ValidationCodeEnum: int implements JsonSerializable
     case TOKEN_INVALID = 2010;
     case TOKEN_EXPIRED = 2011;
     case PASSWORDS_NOT_MATCH = 2012;
+    case LOGIN_BLOCKED = 2013;
 
     // CONTEXT 21XX
     case CONTEXT_UNAUTHORIZED = 2110;
@@ -36,6 +37,7 @@ enum ValidationCodeEnum: int implements JsonSerializable
             self::VERIFIED => "Usuário já ativado, caso não lembre sua senha, acesse o link de recuperação.",
             self::NOT_VERIFIED => "Usuário não ativado, verifique seu e-mail.",
             self::NOT_FOUND => "validations.not_found",
+            self::LOGIN_BLOCKED => "validations.user_blocked",
             self::EMPTY => "validations.empty",
             self::PASSWORDS_NOT_MATCH => "validations.passwords_not_match",
             self::NOT_EMPTY => "validations.not_empty",
