@@ -9,20 +9,25 @@ use Auth\Domain\ValueObject\Email;
 use Auth\Domain\Dao\UserDaoInterface;
 use Auth\Domain\ValueObject\Password;
 use Auth\Domain\Dao\CredentialDaoInterface;
+use Auth\Domain\Dao\SessionDaoInterface;
 use Auth\Domain\Dto\TokenDto;
+use Auth\Domain\Entity\Session;
 use Auth\Domain\Enum\UserStatusEnum;
 use Auth\Domain\Logic\TokenLogic;
 use Shared\Support\TokenInterface;
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ValidationCodeEnum;
+use Shared\Support\HashInterface;
 
 class SignIn
 {
     public function __construct(
         private TokenInterface $token,
         private TokenLogic $tokenLogic,
+        private HashInterface $hash,
         private UserDaoInterface $userDao,
         private CredentialDaoInterface $credentialDao,
+        private SessionDaoInterface $sessionDao,
         private EventDispatcherInterface $eventDispatcher,
     ) {}
 
@@ -31,8 +36,12 @@ class SignIn
      * @param \Auth\Domain\ValueObject\Password $password
      * @throws \Shared\Exception\FieldException
      */
-    public function make(Email $email, Password $password): TokenDto
-    {
+    public function make(
+        Email $email,
+        Password $password,
+        ?string $ipAddress = null,
+        ?string $userAgent = null,
+    ): TokenDto {
         $user = $this->userDao->findByEmail($email);
         if (empty($user->getEmailVerifiedAt())) {
             throw new FieldException(['email' => ValidationCodeEnum::NOT_VERIFIED]);
@@ -46,6 +55,14 @@ class SignIn
         if (!$password->check($credential->getHash())) {
             throw new FieldException(['email' => ValidationCodeEnum::LOGIN_INVALID]);
         }
+
+        $this->sessionDao->clear($user->getId());
+        $this->sessionDao->create(new Session(
+            $this->hash->generate(),
+            $user->getId(),
+            $ipAddress,
+            $userAgent,
+        ));
 
         return $this->tokenLogic->make($user);
     }

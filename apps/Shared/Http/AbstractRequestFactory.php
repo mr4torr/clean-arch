@@ -33,7 +33,7 @@ abstract class AbstractRequestFactory implements RequestFactoryInterface
 
     public function getHeaders(): array
     {
-        return $this->serverRequest->getHeaders();
+        return array_map('current', $this->serverRequest->getHeaders());
     }
 
     public function getMethod(): string

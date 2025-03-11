@@ -13,16 +13,16 @@ use Carbon\Carbon;
 
 class UserDao implements UserDaoInterface
 {
-    private const TABLE_NAME = "auth_users";
+    private string $table = "auth_users";
 
     public function delete(string $id): bool
     {
-        return Db::table(self::TABLE_NAME)->delete($id) > 0;
+        return Db::table($this->table)->delete($id) > 0;
     }
 
     public function verified(User $user): bool
     {
-        return Db::table(self::TABLE_NAME)->where("id", $user->getId())->update([
+        return Db::table($this->table)->where("id", $user->getId())->update([
             "updated_at" => Carbon::now(),
             "email_verified_at" => Carbon::now(),
             "status" => UserStatusEnum::ACTIVE->value,
@@ -32,20 +32,20 @@ class UserDao implements UserDaoInterface
     public function findByEmail(Email $email, array $columns = ['*']): ?User
     {
         return $this->resource(
-            Db::table(self::TABLE_NAME)->where('email', '=', (string) $email)->first($columns)
+            Db::table($this->table)->where('email', '=', (string) $email)->first($columns)
         );
     }
 
     public function find(string $id, array $columns = ['*']): ?User
     {
         return $this->resource(
-            Db::table(self::TABLE_NAME)->find($id, $columns)
+            Db::table($this->table)->find($id, $columns)
         );
     }
 
     public function create(User $user): bool
     {
-        return Db::table(self::TABLE_NAME)->insert([
+        return Db::table($this->table)->insert([
             "id" => $user->getId(),
             "name" => $user->getName(),
             "email" => $user->getEmail(),
@@ -56,11 +56,11 @@ class UserDao implements UserDaoInterface
 
     public function emailAlreadyExists(Email $email): bool
     {
-        return Db::table(self::TABLE_NAME)->where("email", (string) $email)->exists();
+        return Db::table($this->table)->where("email", (string) $email)->exists();
     }
 
     private function resource(?object $resource): ?User
     {
-        return $resource ? User::instance((array) $resource) : null;
+        return $resource ? User::instantiate((array) $resource) : null;
     }
 }

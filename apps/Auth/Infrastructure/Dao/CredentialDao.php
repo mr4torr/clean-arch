@@ -12,23 +12,23 @@ use Auth\Domain\Enum\ProviderEnum;
 
 class CredentialDao implements CredentialDaoInterface
 {
-    private const TABLE_NAME = "auth_credentials";
+    private string $table = "auth_credentials";
 
     public function delete(string $id): bool
     {
-        return Db::table(self::TABLE_NAME)->delete($id) > 0;
+        return Db::table($this->table)->delete($id) > 0;
     }
 
     public function findByUserId(string $id, array $columns = ['*']): ?Credential
     {
         return $this->resource(
-            Db::table(self::TABLE_NAME)->where('user_id', (string) $id)->where('status', true)->first($columns)
+            Db::table($this->table)->where('user_id', (string) $id)->where('status', true)->first($columns)
         );
     }
 
     public function create(Credential $credential): bool
     {
-        return Db::table(self::TABLE_NAME)->insert([
+        return Db::table($this->table)->insert([
             "id" => $credential->getId(),
             "user_id" => $credential->getUserId(),
             "provider" => $credential->getProvider(),
@@ -41,7 +41,7 @@ class CredentialDao implements CredentialDaoInterface
 
     public function activate(string $userId, bool $status = true, ProviderEnum $provider = ProviderEnum::API): bool
     {
-        return Db::table(self::TABLE_NAME)->where([
+        return Db::table($this->table)->where([
             "user_id" => $userId,
             "provider" => $provider->value,
         ])->update([
@@ -52,6 +52,6 @@ class CredentialDao implements CredentialDaoInterface
 
     private function resource(?object $resource): ?Credential
     {
-        return $resource ? Credential::instance((array) $resource) : null;
+        return $resource ? Credential::instantiate((array) $resource) : null;
     }
 }

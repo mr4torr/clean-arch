@@ -18,9 +18,11 @@ use Shared\Mailer\MailerInterface;
 
 // ---
 use Auth\Domain\Dao\UserDaoInterface;
-use Auth\Domain\Dao\CredentialDaoInterface;
 use Auth\Infrastructure\Dao\UserDao;
+use Auth\Domain\Dao\CredentialDaoInterface;
 use Auth\Infrastructure\Dao\CredentialDao;
+use Auth\Domain\Dao\SessionDaoInterface;
+use Auth\Infrastructure\Dao\SessionDao;
 
 /**
  * This file is part of Hyperf.
@@ -39,4 +41,5 @@ return [
     AppExceptionInterface::class => HttpExceptionHandler::class,
     CredentialDaoInterface::class => CredentialDao::class,
     UserDaoInterface::class => UserDao::class,
+    SessionDaoInterface::class => SessionDao::class,
 ];

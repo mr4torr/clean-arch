@@ -10,8 +10,6 @@ use Auth\Domain\Enum\UserStatusEnum;
 use Auth\Domain\ValueObject\Email;
 use DateTime;
 
-use function Termwind\parse;
-
 class User implements JsonSerializable
 {
     public function __construct(
@@ -25,7 +23,7 @@ class User implements JsonSerializable
         private ?string $reason_status = null,
     ) {}
 
-    public static function instance(array $data): self
+    public static function instantiate(array $data): self
     {
         if ($data['email']) $data['email'] = new Email($data['email']);
         if ($data['status']) $data['status'] = UserStatusEnum::from($data['status']);

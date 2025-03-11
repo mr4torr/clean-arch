@@ -20,11 +20,11 @@ return new class extends Migration {
 
         Schema::create('auth_sessions', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid("user_id")->nullable()->constrained("auth_users")->onDelete("cascade");
+            $table->foreignUlid("user_id")->constrained("auth_users")->onDelete("cascade");
             $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->timestampTz('last_activity');
-            $table->text('payload');
+            $table->string('user_agent', 100)->nullable();
+            $table->timestampTz('last_activity')->nullable();
+            $table->string('payload', 255)->nullable();
             $table->timestampTz('created_at');
         });
     }

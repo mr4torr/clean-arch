@@ -26,6 +26,7 @@ Router::addServer("http", function () {
         Router::post("/login", "Auth\Application\Http\SignInController");
         Router::post("/reset", "Auth\Application\Http\ResetController");
         Router::post("/refresh", "Auth\Application\Http\RefreshController");
+        // Router::post("/authorize", "Auth\Application\Http\AuthorizeController");
     });
 });
 

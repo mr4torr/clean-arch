@@ -11,9 +11,6 @@ use Auth\Domain\Enum\ProviderEnum;
 
 class Credential implements JsonSerializable
 {
-    // protected $fillable = ["id", "password", "userId", "provider"];
-    // protected $guarded = ["password"];
-
     public function __construct(
         private string $id,
         private string $hash,
@@ -24,7 +21,7 @@ class Credential implements JsonSerializable
         private ?DateTimeInterface $updated_at = null,
     ) {}
 
-    public static function instance(array $data): self
+    public static function instantiate(array $data): self
     {
         if ($data['provider']) $data['provider'] = ProviderEnum::from($data['provider']);
         if ($data['created_at']) $data['created_at'] = new DateTime($data['created_at']);
@@ -32,21 +29,6 @@ class Credential implements JsonSerializable
 
         return new self(...$data);
     }
-
-    // public static function fill(string $id, string $password, string $userId, string $provider)
-    // {
-    //     return new self(...func_get_args());
-    // }
-
-    // public static function new(
-    //     HashInterface $hasher,
-    //     string $userId,
-    //     Password $hash,
-    //     ProviderEnum $provider = ProviderEnum::API,
-    //     bool $status = false,
-    // ): self {
-    //     return new self($hasher->generate(), (string) $hash, $userId, $provider->value, $status);
-    // }
 
     /**
      * @return array{
