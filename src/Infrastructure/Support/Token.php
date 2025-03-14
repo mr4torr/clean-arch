@@ -11,7 +11,8 @@ use Psr\Log\LoggerInterface;
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ErrorCodeEnum;
 use Shared\Http\Enums\ValidationCodeEnum;
-use Shared\Support\TokenInterface;
+use Shared\Token\TokenInterface;
+use Shared\Token\TokenPayloadInterface;
 
 use function Hyperf\Support\env;
 
@@ -20,15 +21,16 @@ class Token implements TokenInterface
     public function __construct(
         private LoggerInterface $logger
     ) {}
-    public function encode(array $payload, $exp = 60 * 30): string
+    public function encode(TokenPayloadInterface $payload): string
     {
-        $payload = [
-            ...$payload,
-            'iat' => time(),
-            'exp' => time() + $exp,
+        $iat = time();
+        $data = [
+            ...$payload->toArray(),
+            'iat' => $iat,
+            'exp' => $iat + $payload->exp(),
         ];
 
-        return JWT::encode($payload, env('JWT_SECRET_KEY'), 'HS256');
+        return JWT::encode($data, env('JWT_SECRET_KEY'), 'HS256');
     }
 
     public function decode(string $token, string $fieldName = 'token', bool $throw = false): array

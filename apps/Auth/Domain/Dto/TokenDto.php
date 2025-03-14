@@ -2,7 +2,7 @@
 
 namespace Auth\Domain\Dto;
 
-class TokenDto
+class TokenDto implements \JsonSerializable
 {
     public function __construct(
         public readonly string $accessToken,

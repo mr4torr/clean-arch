@@ -6,7 +6,7 @@ namespace Auth\Domain;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Shared\Support\HashInterface;
-use Shared\Support\TokenInterface;
+use Shared\Token\TokenInterface;
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ErrorCodeEnum;
 use Shared\Http\Enums\ValidationCodeEnum;

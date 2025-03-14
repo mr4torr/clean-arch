@@ -13,7 +13,7 @@ use Shared\Exception\AppExceptionInterface;
 use Shared\Http\RequestFactoryInterface;
 use Shared\Http\ResponseFactoryInterface;
 use Shared\Support\HashInterface;
-use Shared\Support\TokenInterface;
+use Shared\Token\TokenInterface;
 use Shared\Mailer\MailerInterface;
 
 // ---

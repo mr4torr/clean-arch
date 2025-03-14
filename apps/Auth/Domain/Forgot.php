@@ -10,7 +10,7 @@ use Auth\Domain\ValueObject\Email;
 use Auth\Domain\Dao\UserDaoInterface;
 use Auth\Domain\Event\SendForgotEmailEvent;
 use Auth\Domain\Event\SendConfirmationEmailEvent;
-use Shared\Support\TokenInterface;
+use Shared\Token\TokenInterface;
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ValidationCodeEnum;
 

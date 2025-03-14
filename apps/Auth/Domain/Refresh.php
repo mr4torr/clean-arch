@@ -9,7 +9,7 @@ use Auth\Domain\Dto\TokenDto;
 use Auth\Domain\Enum\UserStatusEnum;
 use Auth\Domain\Logic\TokenLogic;
 use Shared\Exception\BusinessException;
-use Shared\Support\TokenInterface;
+use Shared\Token\TokenInterface;
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ErrorCodeEnum;
 use Shared\Http\Enums\ValidationCodeEnum;
@@ -30,7 +30,15 @@ class Refresh
             throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID);
         }
 
-        if (!array_key_exists('refresh', $resource)) {
+        if (
+            !array_key_exists('refresh', $resource) ||
+            !array_key_exists('id', $resource) ||
+            !array_key_exists('session_id', $resource)
+        ) {
+            throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID);
+        }
+
+        if ($resource['refresh'] !== true) {
             throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID);
         }
 
@@ -46,6 +54,6 @@ class Refresh
             throw new FieldException(['password' => $user->getReasonStatus() ?? ValidationCodeEnum::LOGIN_BLOCKED]);
         }
 
-        return $this->tokenLogic->make($user);
+        return $this->tokenLogic->make($user->getId(), $resource['session_id']);
     }
 }

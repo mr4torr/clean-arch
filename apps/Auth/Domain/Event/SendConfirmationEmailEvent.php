@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Auth\Domain\Event;
 
-use Shared\Support\TokenInterface;
+use Shared\Token\TokenInterface;
 use Shared\Mailer\MailerBuilder;
 use Auth\Domain\Entity\User;
+use Auth\Domain\ValueObject\TokenEmail;
 
 class SendConfirmationEmailEvent
 {
@@ -19,7 +20,7 @@ class SendConfirmationEmailEvent
             ->template(dirname(__DIR__) . '/Email/sign-up.html')
             ->addParam('name', $user->getName())
             ->addParam('email', (string) $user->getEmail())
-            ->addParam('token', $token->encode(['id' => $user->getId()]));
+            ->addParam('token', $token->encode(new TokenEmail($user->getId())));
 
         return new self($builder);
     }

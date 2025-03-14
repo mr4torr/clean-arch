@@ -11,7 +11,7 @@ use Auth\Domain\Entity\Credential;
 use Auth\Domain\Enum\ProviderEnum;
 use Auth\Domain\Enum\UserStatusEnum;
 use Shared\Exception\BusinessException;
-use Shared\Support\TokenInterface;
+use Shared\Token\TokenInterface;
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ErrorCodeEnum;
 use Shared\Http\Enums\ValidationCodeEnum;

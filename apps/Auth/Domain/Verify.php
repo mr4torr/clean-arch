@@ -6,7 +6,7 @@ namespace Auth\Domain;
 
 use Auth\Domain\Entity\User;
 use Auth\Domain\Dao\UserDaoInterface;
-use Shared\Support\TokenInterface;
+use Shared\Token\TokenInterface;
 use Shared\Exception\BusinessException;
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ErrorCodeEnum;

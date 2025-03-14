@@ -14,7 +14,7 @@ use Auth\Domain\Dto\TokenDto;
 use Auth\Domain\Entity\Session;
 use Auth\Domain\Enum\UserStatusEnum;
 use Auth\Domain\Logic\TokenLogic;
-use Shared\Support\TokenInterface;
+use Shared\Token\TokenInterface;
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ValidationCodeEnum;
 use Shared\Support\HashInterface;
@@ -57,13 +57,15 @@ class SignIn
         }
 
         $this->sessionDao->clear($user->getId());
-        $this->sessionDao->create(new Session(
+        $session = new Session(
             $this->hash->generate(),
             $user->getId(),
             $ipAddress,
             $userAgent,
-        ));
+        );
 
-        return $this->tokenLogic->make($user);
+        $this->sessionDao->create($session);
+
+        return $this->tokenLogic->make($user->getId(), $session->getId());
     }
 }

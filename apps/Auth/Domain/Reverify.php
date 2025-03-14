@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Auth\Domain;
 
-use Auth\Domain\Entity\User;
 use Auth\Domain\Dao\UserDaoInterface;
 use Auth\Domain\Event\SendConfirmationEmailEvent;
 use Auth\Domain\ValueObject\Email;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Shared\Support\TokenInterface;
-use Shared\Exception\BusinessException;
+use Shared\Token\TokenInterface;
 use Shared\Exception\FieldException;
-use Shared\Http\Enums\ErrorCodeEnum;
 use Shared\Http\Enums\ValidationCodeEnum;
 
 class Reverify
