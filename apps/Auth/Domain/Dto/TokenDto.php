@@ -2,18 +2,13 @@
 
 namespace Auth\Domain\Dto;
 
-class TokenDto implements \JsonSerializable
+use Auth\Domain\Token\TokenPayload;
+use Auth\Domain\Token\TokenPayloadRefresh;
+
+class TokenDto
 {
     public function __construct(
-        public readonly string $accessToken,
-        public readonly string $refreshToken
+        public readonly TokenPayload $accessToken,
+        public readonly TokenPayloadRefresh $refreshToken
     ) {}
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'access_token' => $this->accessToken,
-            'refresh_token' => $this->refreshToken
-        ];
-    }
 }

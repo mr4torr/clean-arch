@@ -21,7 +21,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Shared\Exception\BusinessException;
 use Shared\Exception\FieldException;
+use Shared\Http\Enums\CodeEnumInterface;
 use Shared\Http\Enums\ErrorCodeEnum;
+use Shared\Http\Enums\ValidationCodeEnum;
 use Throwable;
 
 use function Hyperf\Support\env;
@@ -47,10 +49,23 @@ class HttpExceptionHandler extends ExceptionHandler implements AppExceptionInter
             case FieldException::class:
                 $code = ErrorCodeEnum::VALIDATION_FIELDS->get();
                 $statusCode = $throwable->getCode();
+
+                $fields = array_map(function ($field) {
+                    if (is_object($field) && $field instanceof CodeEnumInterface) {
+                        $field = [$field->get()->message];
+                    }
+
+                    if (!is_array($field)) {
+                        $field = [$field];
+                    }
+
+                    return $field;
+                }, $throwable->fields);
+
                 $content = [
                     "code" => $code->statusCode->value,
                     "message" => $code->message,
-                    "fields" => $throwable->fields,
+                    "fields" => $fields,
                 ];
                 break;
             case BusinessException::class:

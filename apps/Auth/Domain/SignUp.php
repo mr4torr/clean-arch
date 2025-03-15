@@ -4,28 +4,25 @@ declare(strict_types=1);
 
 namespace Auth\Domain;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Shared\Support\HashInterface;
-use Shared\Token\TokenInterface;
+// Shared -
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ErrorCodeEnum;
 use Shared\Http\Enums\ValidationCodeEnum;
 use Shared\Exception\BusinessException;
+// Domain -
 use Auth\Domain\Entity\User;
 use Auth\Domain\Dto\SignUpDto;
 use Auth\Domain\Entity\Credential;
 use Auth\Domain\Dao\UserDaoInterface;
 use Auth\Domain\Dao\CredentialDaoInterface;
-use Auth\Domain\Event\SendConfirmationEmailEvent;
+use Auth\Domain\Email\SendEmailInterface;
 
 class SignUp
 {
     public function __construct(
-        private TokenInterface $token,
-        private HashInterface $hash,
         private UserDaoInterface $userDao,
         private CredentialDaoInterface $credentialDao,
-        private EventDispatcherInterface $eventDispatcher,
+        private SendEmailInterface $sendEmail
     ) {}
 
     public function make(SignUpDto $input): User
@@ -35,29 +32,29 @@ class SignUp
         }
 
         try {
-            $user = new User($this->hash->generate(), $input->name, $input->email);
-            if (!$this->userDao->create($user)) {
+            $user = $this->userDao->create(new User($input->name, $input->email));
+            if (!$user) {
                 throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, "auth.error.sign_up_user");
             }
-            $credential = new Credential(
-                    id: $this->hash->generate(),
-                    user_id: $user->getId(),
-                    hash: (string) $input->password,
-                    provider: $input->provider
+
+            $credential = $this->credentialDao->create(
+                new Credential(user_id: $user->id, hash: (string) $input->password, provider: $input->provider)
             );
-            if (!$this->credentialDao->create($credential)) {
+            if (!$credential) {
                 throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, "auth.error.sign_up_credential");
             }
         } catch (\Throwable $e) {
-            if (isset($user)) $this->userDao->delete($user->getId());
-            if (isset($credential)) $this->credentialDao->delete($credential->getId());
+            if (isset($user)) {
+                $this->userDao->delete($user->id);
+            }
+            if (isset($credential)) {
+                $this->credentialDao->delete($credential->id);
+            }
 
             throw $e;
         }
 
-        $this->eventDispatcher->dispatch(
-            SendConfirmationEmailEvent::make($this->token, $user)
-        );
+        $this->sendEmail->sendConfirmationEmail($user);
 
         return $user;
     }

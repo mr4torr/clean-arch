@@ -4,56 +4,35 @@ declare(strict_types=1);
 
 namespace Auth\Domain;
 
-use Auth\Domain\Dao\UserDaoInterface;
-use Auth\Domain\Dto\TokenDto;
-use Auth\Domain\Enum\UserStatusEnum;
-use Auth\Domain\Logic\TokenLogic;
-use Shared\Exception\BusinessException;
-use Shared\Token\TokenInterface;
+// Shared -
 use Shared\Exception\FieldException;
+use Shared\Exception\BusinessException;
 use Shared\Http\Enums\ErrorCodeEnum;
 use Shared\Http\Enums\ValidationCodeEnum;
+// Domain -
+use Auth\Domain\Dto\TokenDto;
+use Auth\Domain\Dao\UserDaoInterface;
+use Auth\Domain\Token\TokenPayload;
+use Auth\Domain\Token\TokenPayloadRefresh;
 
 class Refresh
 {
-    public function __construct(
-        private TokenInterface $token,
-        private UserDaoInterface $userDao,
-        private TokenLogic $tokenLogic,
-    ) {}
+    public function __construct(private UserDaoInterface $userDao) {}
 
-    public function make(string $token): TokenDto
+    public function make(string $userId, string $sessionId): TokenDto
     {
-        try {
-            $resource = $this->token->decode($token);
-        } catch (\Throwable $th) {
-            throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID);
-        }
-
-        if (
-            !array_key_exists('refresh', $resource) ||
-            !array_key_exists('id', $resource) ||
-            !array_key_exists('session_id', $resource)
-        ) {
-            throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID);
-        }
-
-        if ($resource['refresh'] !== true) {
-            throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID);
-        }
-
-        if (!$user = $this->userDao->find($resource['id'])) {
+        if (!($user = $this->userDao->find($userId))) {
             throw new BusinessException(ErrorCodeEnum::NOT_FOUND);
         }
 
-        if (empty($user->getEmailVerifiedAt())) {
-            throw new FieldException(['password' => ValidationCodeEnum::NOT_VERIFIED]);
+        if (!$user->isEmailVerified()) {
+            throw new FieldException(["token" => ValidationCodeEnum::NOT_VERIFIED]);
         }
 
-        if ($user->getStatus() !== UserStatusEnum::ACTIVE) {
-            throw new FieldException(['password' => $user->getReasonStatus() ?? ValidationCodeEnum::LOGIN_BLOCKED]);
+        if (!$user->isActive()) {
+            throw new FieldException(["token" => $user->reason_status ?? ValidationCodeEnum::LOGIN_BLOCKED]);
         }
 
-        return $this->tokenLogic->make($user->getId(), $resource['session_id']);
+        return new TokenDto(new TokenPayload($userId, $sessionId), new TokenPayloadRefresh($userId, $sessionId));
     }
 }

@@ -6,7 +6,7 @@ namespace Shared\Http\Enums;
 
 use Shared\Http\Objects\ResponseCode;
 
-enum SuccessCodeEnum: int
+enum SuccessCodeEnum: int implements CodeEnumInterface
 {
     case OK = 2200;
     case CREATED = 2201;

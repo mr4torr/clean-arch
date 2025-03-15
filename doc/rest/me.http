@@ -1,0 +1,11 @@
+@host=localhost
+@contentType = application/json
+
+@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YSDQzODE2VzlWREpLNzAyQlpCVDg3Iiwic2Vzc2lvbl9pZCI6IjAxSlBCUEE1VjJZQTBTREhXRTBOTTI2VDBOIiwicmVmcmVzaCI6ZmFsc2UsImlhdCI6MTc0MjAwMTczOSwiZXhwIjoxNzQyMDA1MzM5fQ.325mMXcz21JIsjeiBw0n0kpU0v1SCO0WlUZQNmfAP9M
+
+###
+
+GET /user/me
+Host: {{ host }}
+Content-Type: {{ contentType }}
+Authorization: Bearer {{ token }}

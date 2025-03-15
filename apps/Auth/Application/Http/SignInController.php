@@ -4,38 +4,50 @@ declare(strict_types=1);
 
 namespace Auth\Application\Http;
 
+use Psr\Http\Message\ResponseInterface;
+use Hyperf\Di\Annotation\Inject;
+// Core -
+use App\Domain\Jwt\TokenInterface;
 use App\Infrastructure\Support\IpAddress;
+// Shared -
+use Shared\Http\AbstractController;
+// Domain -
 use Auth\Domain\SignIn;
 use Auth\Domain\ValueObject\Email;
 use Auth\Domain\ValueObject\Password;
-use Hyperf\Di\Annotation\Inject;
-use Shared\Http\AbstractController;
-use Psr\Http\Message\ResponseInterface;
 
 class SignInController extends AbstractController
 {
     #[Inject]
     private IpAddress $ipAddress;
 
-    public function __invoke(SignIn $service): ResponseInterface
+    public function __invoke(SignIn $service, TokenInterface $token): ResponseInterface
     {
         $this->request->validate([
             "email" => "required|email",
             "password" => "required|min:8",
         ]);
 
-
         $headers = $this->request->getHeaders();
-        $ipAddress = $headers['x-real-ip'] ?: ($headers['x-forwarded-for'] ?: $this->ipAddress->get());
-        $userAgent = $headers['user-agent'] ?: null;
+        $ipAddress = $headers["x-real-ip"] ?: ($headers["x-forwarded-for"] ?: $this->ipAddress->get());
+        $userAgent = $headers["user-agent"] ?: null;
 
         $resource = $service->make(
-            new Email($this->request->get('email')),
-            new Password($this->request->get('password')),
+            new Email($this->request->get("email")),
+            new Password($this->request->get("password")),
             $ipAddress,
             $userAgent
         );
 
-        return $this->response->success($resource);
+        return $this->response->success([
+            'access_token' => $token->encode(
+                $resource->accessToken->toArray(),
+                $resource->accessToken->expiresAt()
+            ),
+            'refresh_token' => $token->encode(
+                $resource->refreshToken->toArray(),
+                $resource->refreshToken->expiresAt()
+            ),
+        ]);
     }
 }

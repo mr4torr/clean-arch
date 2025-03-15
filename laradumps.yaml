@@ -2,18 +2,18 @@ app:
   primary_host: 127.0.0.1
   secondary_host: host.docker.internal
   port: 9191
-  # workdir: /opt/www
-  # project_path: null
+  workdir: /var/www/html/
+  project_path: /home/mailontorres/Projects/apps/auth/
   # wsl_config: wsl+Ubuntu/
 config:
   sleep: 0
-  docker: true
+  macos_auto_launch: false
 observers:
   auto_invoke_app: false
   enabled_in_testing: false
-#
-#
-#
-# Adicionar no docker-compose
-# extra_hosts:
-#   - "host.docker.internal:host-gateway"
+xdebug:
+  client_host: 0.0.0.0
+  client_port: 9003
+code_snippet:
+  above: 9
+  below: 3

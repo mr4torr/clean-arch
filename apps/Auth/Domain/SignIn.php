@@ -4,68 +4,60 @@ declare(strict_types=1);
 
 namespace Auth\Domain;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
+// Shared -
+use Shared\Exception\FieldException;
+use Shared\Http\Enums\ValidationCodeEnum;
+// Domain -
+use Auth\Domain\Dto\TokenDto;
+use Auth\Domain\Entity\Session;
 use Auth\Domain\ValueObject\Email;
 use Auth\Domain\Dao\UserDaoInterface;
 use Auth\Domain\ValueObject\Password;
-use Auth\Domain\Dao\CredentialDaoInterface;
 use Auth\Domain\Dao\SessionDaoInterface;
-use Auth\Domain\Dto\TokenDto;
-use Auth\Domain\Entity\Session;
-use Auth\Domain\Enum\UserStatusEnum;
-use Auth\Domain\Logic\TokenLogic;
-use Shared\Token\TokenInterface;
-use Shared\Exception\FieldException;
-use Shared\Http\Enums\ValidationCodeEnum;
-use Shared\Support\HashInterface;
+use Auth\Domain\Token\TokenPayload;
+use Auth\Domain\Dao\CredentialDaoInterface;
+use Auth\Domain\Token\TokenPayloadRefresh;
 
 class SignIn
 {
     public function __construct(
-        private TokenInterface $token,
-        private TokenLogic $tokenLogic,
-        private HashInterface $hash,
         private UserDaoInterface $userDao,
         private CredentialDaoInterface $credentialDao,
-        private SessionDaoInterface $sessionDao,
-        private EventDispatcherInterface $eventDispatcher,
+        private SessionDaoInterface $sessionDao
     ) {}
 
-    /**
-     * @param \Auth\Domain\ValueObject\Email $email
-     * @param \Auth\Domain\ValueObject\Password $password
-     * @throws \Shared\Exception\FieldException
-     */
     public function make(
         Email $email,
         Password $password,
         ?string $ipAddress = null,
-        ?string $userAgent = null,
+        ?string $userAgent = null
     ): TokenDto {
         $user = $this->userDao->findByEmail($email);
-        if (empty($user->getEmailVerifiedAt())) {
-            throw new FieldException(['email' => ValidationCodeEnum::NOT_VERIFIED]);
+
+        if (!$user) {
+            throw new FieldException(["email" => ValidationCodeEnum::LOGIN_INVALID]);
         }
 
-        if ($user->getStatus() !== UserStatusEnum::ACTIVE) {
-            throw new FieldException(['email' => $user->getReasonStatus() ?? ValidationCodeEnum::LOGIN_BLOCKED]);
+        if (!$user->isEmailVerified()) {
+            throw new FieldException(["email" => ValidationCodeEnum::NOT_VERIFIED]);
         }
 
-        $credential = $this->credentialDao->findByUserId($user->getId());
-        if (!$password->check($credential->getHash())) {
-            throw new FieldException(['email' => ValidationCodeEnum::LOGIN_INVALID]);
+        if (!$user->isActive()) {
+            throw new FieldException(["email" => $user->reason_status ?? ValidationCodeEnum::LOGIN_BLOCKED]);
         }
 
-        $this->sessionDao->clear($user->getId());
-        $session = new Session(
-            $this->hash->generate(),
-            $user->getId(),
-            $ipAddress,
-            $userAgent,
+        $credential = $this->credentialDao->findByUserId($user->id);
+
+        if (!$credential || !$password->check($credential->hash)) {
+            throw new FieldException(["email" => ValidationCodeEnum::LOGIN_INVALID]);
+        }
+
+        $this->sessionDao->clear($user->id);
+        $session = $this->sessionDao->create(new Session($user->id, $ipAddress, $userAgent));
+
+        return new TokenDto(
+            new TokenPayload($user->id, $session->id),
+            new TokenPayloadRefresh($user->id, $session->id)
         );
-
-        $this->sessionDao->create($session);
-
-        return $this->tokenLogic->make($user->getId(), $session->getId());
     }
 }

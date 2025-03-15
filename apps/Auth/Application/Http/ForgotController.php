@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Auth\Application\Http;
 
+use Psr\Http\Message\ResponseInterface;
+// Shared -
+use Shared\Http\AbstractController;
+// Domain -
 use Auth\Domain\Forgot;
 use Auth\Domain\ValueObject\Email;
-use Shared\Http\AbstractController;
-use Psr\Http\Message\ResponseInterface;
 
 class ForgotController extends AbstractController
 {
@@ -15,7 +17,7 @@ class ForgotController extends AbstractController
     {
         $this->request->validate(["email" => "required|email"]);
 
-        $service->make(new Email($this->request->get('email')));
+        $service->make(new Email($this->request->get("email")));
 
         return $this->response->success("Confira seu email para recuperação de conta");
     }

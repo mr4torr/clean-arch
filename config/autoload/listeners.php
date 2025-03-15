@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Auth\Infrastructure\Listener\SendEmailListener;
+use Auth\Application\Listener\SendEmailListener;
 
 /**
  * This file is part of Hyperf.

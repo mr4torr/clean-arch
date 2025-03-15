@@ -53,8 +53,9 @@
   "autoload": {
     "psr-4": {
       "App\\": "src/",
-      "Shared\\": "apps/Shared/",
-      "Auth\\": "apps/Auth/"
+      "Auth\\": "apps/Auth/",
+      "User\\": "apps/User/",
+      "Shared\\": "apps/Shared/"
     },
     "files": []
   },

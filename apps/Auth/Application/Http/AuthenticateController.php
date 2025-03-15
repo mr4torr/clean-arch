@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Auth\Application\Http;
 
+// Shared -
 use Shared\Http\AbstractController;
 
 class AuthenticateController extends AbstractController

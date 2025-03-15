@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Shared\Http\Enums;
 
-use JsonSerializable;
 use Shared\Http\Objects\ResponseCode;
 
-enum ErrorCodeEnum: int implements JsonSerializable
+enum ErrorCodeEnum: int implements CodeEnumInterface
 {
     case NOT_FOUND = 1404;
     case UNAUTHORIZED = 1401;
@@ -45,10 +44,5 @@ enum ErrorCodeEnum: int implements JsonSerializable
             ),
             self::VALIDATION_FIELDS => ResponseCode::make("errors.validation.fields", StatusCodeEnum::BAD_REQUEST),
         };
-    }
-
-    public function jsonSerialize(): mixed
-    {
-        return $this->get()->message;
     }
 }

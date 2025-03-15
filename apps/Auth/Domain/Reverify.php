@@ -4,34 +4,32 @@ declare(strict_types=1);
 
 namespace Auth\Domain;
 
-use Auth\Domain\Dao\UserDaoInterface;
-use Auth\Domain\Event\SendConfirmationEmailEvent;
-use Auth\Domain\ValueObject\Email;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Shared\Token\TokenInterface;
+// Shared -
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ValidationCodeEnum;
+// Domain -
+use Auth\Domain\Dao\UserDaoInterface;
+use Auth\Domain\Email\SendEmailInterface;
+use Auth\Domain\ValueObject\Email;
 
 class Reverify
 {
-    public function __construct(
-        private TokenInterface $token,
-        private UserDaoInterface $userDao,
-        private EventDispatcherInterface $eventDispatcher,
-    ) {}
+    public function __construct(private UserDaoInterface $userDao, private SendEmailInterface $sendEmail) {}
 
     public function make(Email $email): void
     {
-        if (!$user = $this->userDao->findByEmail($email)) {
+        if (!($user = $this->userDao->findByEmail($email))) {
             return;
         }
 
-        if ($user->getEmailVerifiedAt() !== null) {
-            throw new FieldException(['email' => ValidationCodeEnum::VERIFIED]);
+        if ($user->isEmailVerified()) {
+            throw new FieldException(["email" => ValidationCodeEnum::VERIFIED]);
         }
 
-        $this->eventDispatcher->dispatch(
-            SendConfirmationEmailEvent::make($this->token, $user)
-        );
+        if (!$user->isActive()) {
+            throw new FieldException(["email" => $user->reason_status ?? ValidationCodeEnum::LOGIN_BLOCKED]);
+        }
+
+        $this->sendEmail->sendConfirmationEmail($user);
     }
 }

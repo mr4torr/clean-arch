@@ -8,6 +8,13 @@ use Auth\Domain\Entity\Session;
 
 interface SessionDaoInterface
 {
-    public function create(Session $session): bool;
+    public function create(Session $session): ?Session;
     public function clear(string $userId): bool;
+
+    /**
+     * @param string $userId
+     * @param array<string> $columns
+     * @return array<Session>
+     */
+    public function all(string $userId, array $columns = ["*"]): array;
 }

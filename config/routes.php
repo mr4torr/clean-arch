@@ -9,6 +9,8 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
+use Auth\Application\Middleware\AuthMiddleware;
 use Hyperf\HttpServer\Router\Router;
 
 // Router::addRoute(["GET", "POST", "HEAD"], "/", "Auth\SignUp\Application\Http\IndexController");
@@ -27,7 +29,18 @@ Router::addServer("http", function () {
         Router::post("/reset", "Auth\Application\Http\ResetController");
         Router::post("/refresh", "Auth\Application\Http\RefreshController");
         // Router::post("/authorize", "Auth\Application\Http\AuthorizeController");
+        Router::get("/active-sessions", "Auth\Application\Http\ActiveSessionsController", [
+            "middleware" => [AuthMiddleware::class],
+        ]);
     });
+
+    Router::addGroup(
+        "/user",
+        function () {
+            Router::get("/me", "User\Application\Http\MeController");
+        },
+        ["middleware" => [AuthMiddleware::class]]
+    );
 });
 
 Router::get("/favicon.ico", function () {

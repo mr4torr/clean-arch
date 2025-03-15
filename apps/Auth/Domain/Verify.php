@@ -4,30 +4,27 @@ declare(strict_types=1);
 
 namespace Auth\Domain;
 
-use Auth\Domain\Entity\User;
-use Auth\Domain\Dao\UserDaoInterface;
-use Shared\Token\TokenInterface;
+// Shared -
 use Shared\Exception\BusinessException;
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ErrorCodeEnum;
 use Shared\Http\Enums\ValidationCodeEnum;
+// Domain -
+use Auth\Domain\Entity\User;
+use Auth\Domain\Dao\UserDaoInterface;
 
 class Verify
 {
-    public function __construct(
-        private TokenInterface $token,
-        private UserDaoInterface $userDao,
-    ) {}
+    public function __construct(private UserDaoInterface $userDao) {}
 
-    public function make(string $token): User
+    public function make(string $userId): User
     {
-        $resource = $this->token->decode($token);
-        if (!$user = $this->userDao->find($resource['id'])) {
+        if (!($user = $this->userDao->find($userId))) {
             throw new BusinessException(ErrorCodeEnum::NOT_FOUND);
         }
 
-        if ($user->getEmailVerifiedAt() !== null) {
-            throw new FieldException(['token' => ValidationCodeEnum::VERIFIED]);
+        if ($user->isEmailVerified()) {
+            throw new FieldException(["token" => ValidationCodeEnum::VERIFIED]);
         }
 
         $this->userDao->verified($user);

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Auth\Application\Http;
 
-use Auth\Domain\SignUp;
-use Auth\Domain\Dto\SignUpDto;
 use Psr\Http\Message\ResponseInterface;
+// Shared -
 use Shared\Http\AbstractController;
 use Shared\Http\Enums\SuccessCodeEnum;
+// Domain -
+use Auth\Domain\SignUp;
+use Auth\Domain\Dto\SignUpDto;
 
 class SignUpController extends AbstractController
 {

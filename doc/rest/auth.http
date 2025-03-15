@@ -1,11 +1,10 @@
 @host=localhost
 @createdAt = {{$datetime iso8601}}
-@modifiedBy = {{$processEnv USERNAME}}
+# @modifiedBy = {{$processEnv USERNAME}}
 @contentType = application/json
 
 Host: {{ host }}
 Content-Type: {{ contentType }}
-
 
 ###
 
@@ -20,7 +19,7 @@ Content-Type: {{ contentType }}
 
 {
     "email": "admin@example.com",
-    "password": "P@ssw0rD123"
+    "password": "P@ssw0rD"
 }
 
 ###
@@ -31,7 +30,7 @@ Content-Type: {{ contentType }}
 
 {
     "name": "Admin",
-    "email": "admin4@example.com",
+    "email": "admin@example.com",
     "password": "P@ssw0rD",
     "password_confirmation": "P@ssw0rD"
 }
@@ -43,7 +42,7 @@ Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YSDQzODE2VzlWREpLNzAyQlpCVDg3IiwiaWF0IjoxNzQxNTQwNjc3LCJleHAiOjE3NDE1NDI0Nzd9.SgSbfPrkW0VKfofe_dRcWHIbYw9hvsE_p_e8j9aE56g"
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBEV0VSNkZSTVBSNjgxWTE2NTVFVkRFIiwicmVmcmVzaCI6ZmFsc2UsImlhdCI6MTc0MjA3NTI4OSwiZXhwIjoxNzQyMDc4ODg5fQ.ra_f6EOcT80RDpimspUHy76RoPPTuaeaV_AyinxROtk"
 }
 
 ###
@@ -75,9 +74,9 @@ Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YSDQzODE2VzlWREpLNzAyQlpCVDg3IiwiaWF0IjoxNzQxNTYzNzA0LCJleHAiOjE3NDE1NjU1MDR9.7grQj82U4jbAkR-D8YjZKuo3O1u5n0mr-A1uvvGSrB8",
-    "password": "P@ssw0rD123",
-    "password_confirmation": "P@ssw0rD123"
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3IiwicmVzb3VyY2UiOiJmb3Jnb3QiLCJpYXQiOjE3NDIwNzY5NzUsImV4cCI6MTc0MjA4MDU3NX0.-IAcLea8-oLLUUMtrvPMjinCFsN0zZvqxxlxO7q38G8",
+    "password": "P@ssw0rD",
+    "password_confirmation": "P@ssw0rD"
 }
 
 
@@ -89,5 +88,13 @@ Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSk5YSDQzODE2VzlWREpLNzAyQlpCVDg3Iiwic2Vzc2lvbl9pZCI6IjAxSlBCRFZHQjBORk1IM0NIQ0NOTllEWFk2IiwicmVmcmVzaCI6dHJ1ZSwiaWF0IjoxNzQxOTkyODcwLCJleHAiOjE3NDIwNzkyNzB9.DOmhuKRMqpUk7oQM2RPVOSPu-BPwUwaT8aZzIwNS5W0"
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBEWUowUU1IUjdIS1c2SzZZQ1lSSk5NIiwicmVzb3VyY2UiOiJyZWZyZXNoIiwiaWF0IjoxNzQyMDc3NDk0LCJleHAiOjE3NDIxNjM4OTR9.d7fyU0k8JmVa93hjZ1MnpOAFsiVYbEDUL6i3YKKEhPM"
 }
+
+
+###
+
+GET /auth/active-sessions
+Host: {{ host }}
+Content-Type: {{ contentType }}
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBEWjVINzcyVEdaOFpSU0RCSzdIUEdFIiwicmVzb3VyY2UiOiJhdXRob3JpemF0aW9uIiwiaWF0IjoxNzQyMDc4MTMzLCJleHAiOjE3NDIwODE3MzN9.OQCu4CbORs4CNm252w7k_1E4eRdqt4wUrGanZvdDGQQ

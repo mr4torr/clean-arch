@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Shared\Http\Enums;
 
-use JsonSerializable;
+use Shared\Http\Objects\ResponseCode;
 
-enum ValidationCodeEnum: int implements JsonSerializable
+enum ValidationCodeEnum: int implements CodeEnumInterface
 {
     // COMMON 20XX
     case VERIFIED = 2000;
@@ -30,37 +30,50 @@ enum ValidationCodeEnum: int implements JsonSerializable
     case INVITATION_NOT_BELONG_TO_USER = 2113;
     case INVITATION_USER_IS_ALREADY_TEAM = 2114;
 
-    public function get(): string
+    public function get(): ResponseCode
     {
         return match ($this) {
-            self::DUPLICATED => "validations.duplicated",
-            self::VERIFIED => "Usuário já ativado, caso não lembre sua senha, acesse o link de recuperação.",
-            self::NOT_VERIFIED => "Usuário não ativado, verifique seu e-mail.",
-            self::NOT_FOUND => "validations.not_found",
-            self::LOGIN_BLOCKED => "validations.user_blocked",
-            self::EMPTY => "validations.empty",
-            self::PASSWORDS_NOT_MATCH => "validations.passwords_not_match",
-            self::NOT_EMPTY => "validations.not_empty",
-            self::TOKEN_INVALID => "validations.token_invalid",
-            self::CHECK_EMAIL_FOR_RESET => "Enviamos recentemente instruções para esse e-mail.",
-            self::DIFFERENT_VALUE => "validations.different_value",
-            self::LOGIN_INVALID => "Email ou senha inválida",
-            self::CONTEXT_UNBOUND => "Contexto não esta vínculado a esse usuário",
-            self::CONTEXT_AUTHORIZED_ADMIN => "Apenas administradores e proprietários podem convidar usuários",
-            self::INVITATION_NOT_BELONG_TO_USER => "O convite não pertende a esse usuário",
-            self::INVITATION_USER_IS_ALREADY_TEAM => "O usuário já faz parte da equipe",
-            self::TOKEN_EXPIRED => "validations.token_expired",
+            self::DUPLICATED => ResponseCode::make("validations.duplicated", StatusCodeEnum::FORBIDDEN),
+            self::VERIFIED => ResponseCode::make(
+                "Usuário já ativado, caso não lembre sua senha, acesse o link de recuperação.",
+                StatusCodeEnum::FORBIDDEN
+            ),
+            self::NOT_VERIFIED => ResponseCode::make(
+                "Usuário não ativado, verifique seu e-mail.",
+                StatusCodeEnum::FORBIDDEN
+            ),
+            self::NOT_FOUND => ResponseCode::make("validations.not_found", StatusCodeEnum::NOT_FOUND),
+            self::LOGIN_BLOCKED => ResponseCode::make("validations.user_blocked", StatusCodeEnum::FORBIDDEN),
+            self::EMPTY => ResponseCode::make("validations.empty", StatusCodeEnum::FORBIDDEN),
+            self::PASSWORDS_NOT_MATCH => ResponseCode::make(
+                "validations.passwords_not_match",
+                StatusCodeEnum::FORBIDDEN
+            ),
+            self::NOT_EMPTY => ResponseCode::make("validations.not_empty", StatusCodeEnum::FORBIDDEN),
+            self::TOKEN_INVALID => ResponseCode::make("validations.token_invalid", StatusCodeEnum::FORBIDDEN),
+            self::CHECK_EMAIL_FOR_RESET => ResponseCode::make(
+                "Enviamos recentemente instruções para esse e-mail.",
+                StatusCodeEnum::FORBIDDEN
+            ),
+            self::DIFFERENT_VALUE => ResponseCode::make("validations.different_value", StatusCodeEnum::FORBIDDEN),
+            self::LOGIN_INVALID => ResponseCode::make("Email ou senha inválida", StatusCodeEnum::FORBIDDEN),
+            self::CONTEXT_UNBOUND => ResponseCode::make(
+                "Contexto não esta vínculado a esse usuário",
+                StatusCodeEnum::FORBIDDEN
+            ),
+            self::CONTEXT_AUTHORIZED_ADMIN => ResponseCode::make(
+                "Apenas administradores e proprietários podem convidar usuários",
+                StatusCodeEnum::FORBIDDEN
+            ),
+            self::INVITATION_NOT_BELONG_TO_USER => ResponseCode::make(
+                "O convite não pertende a esse usuário",
+                StatusCodeEnum::FORBIDDEN
+            ),
+            self::INVITATION_USER_IS_ALREADY_TEAM => ResponseCode::make(
+                "O usuário já faz parte da equipe",
+                StatusCodeEnum::FORBIDDEN
+            ),
+            self::TOKEN_EXPIRED => ResponseCode::make("validations.token_expired", StatusCodeEnum::FORBIDDEN),
         };
-    }
-
-    public function jsonSerialize(): mixed
-    {
-        return [
-            $this->get(),
-            // $this->value,
-            // [ "code" => $this->value ]
-            // 'code' => $this->value,
-            // 'message' => $this->get(),
-        ];
     }
 }
