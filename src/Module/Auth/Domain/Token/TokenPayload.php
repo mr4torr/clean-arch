@@ -10,7 +10,7 @@ final class TokenPayload extends AbstractTokenPayload
 {
     public function toArray(): array
     {
-        return [...parent::toArray(), 'resource' => TokenEnum::Authorization];
+        return [...parent::toArray(), 'resource' => TokenEnum::AUTHORIZATION];
     }
 
     public function expiresAt(): int

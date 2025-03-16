@@ -20,7 +20,7 @@ class AuthenticateController extends AbstractController
         AuthContext $context,
         SessionDaoInterface $sessionDao,
     ): void {
-        $context->validate(TokenEnum::Authorization->value);
+        $context->validate(TokenEnum::AUTHORIZATION->value);
 
         if (!$sessionDao->exists($context->getSessionId())) {
             throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID);

@@ -16,7 +16,7 @@ final class TokenConfirmationEmail implements TokenPayloadInterface
     {
         return [
             'id' => $this->id,
-            'resource' => TokenEnum::Confirmation,
+            'resource' => TokenEnum::CONFIRMATION,
         ];
     }
 

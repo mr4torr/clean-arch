@@ -18,7 +18,7 @@ class VerifyController extends AbstractController
     {
         $this->request->validate(['token' => 'required']);
 
-        if ($context->channel('token')->validate(TokenEnum::Authorization->value)) {
+        if ($context->channel('token')->validate(TokenEnum::AUTHORIZATION->value)) {
             throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID);
         }
 

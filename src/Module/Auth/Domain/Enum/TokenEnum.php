@@ -6,13 +6,13 @@ namespace Auth\Domain\Enum;
 
 enum TokenEnum: string
 {
-    case Refresh = 'refresh';
-    case Forgot = 'forgot';
-    case Confirmation = 'confirmation';
-    case Authorization = 'authorization';
+    case REFRESH = 'refresh';
+    case FORGOT = 'forgot';
+    case CONFIRMATION = 'confirmation';
+    case AUTHORIZATION = 'authorization';
 
     public static function default(): self
     {
-        return self::Authorization;
+        return self::AUTHORIZATION;
     }
 }

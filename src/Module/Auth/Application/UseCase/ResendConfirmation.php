@@ -19,8 +19,7 @@ class ResendConfirmation
     public function make(Email $email): void
     {
         if (!$email->validate()) {
-            return;
-            // throw new FieldException(['email' => ValidationCodeEnum::EMAIL_INVALID]);
+            throw new FieldException(['email' => ValidationCodeEnum::EMAIL_INVALID]);
         }
 
         if (!($user = $this->userDao->findByEmail($email))) {
@@ -28,13 +27,11 @@ class ResendConfirmation
         }
 
         if ($user->isEmailVerified()) {
-            return;
-            // throw new FieldException(['email' => ValidationCodeEnum::VERIFIED]);
+            throw new FieldException(['email' => ValidationCodeEnum::VERIFIED]);
         }
 
         if (!$user->isActive()) {
-            return;
-            // throw new FieldException(['email' => $user->reason_status ?? ValidationCodeEnum::LOGIN_BLOCKED]);
+            throw new FieldException(['email' => $user->reason_status ?? ValidationCodeEnum::LOGIN_BLOCKED]);
         }
 
         $this->sendEmail->sendConfirmationEmail($user);

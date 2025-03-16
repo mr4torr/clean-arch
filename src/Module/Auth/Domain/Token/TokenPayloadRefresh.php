@@ -10,7 +10,7 @@ final class TokenPayloadRefresh extends AbstractTokenPayload
 {
     public function toArray(): array
     {
-        return [...parent::toArray(), 'resource' => TokenEnum::Refresh];
+        return [...parent::toArray(), 'resource' => TokenEnum::REFRESH];
     }
 
     public function expiresAt(): int

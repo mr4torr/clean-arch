@@ -22,7 +22,7 @@ class ResetController extends AbstractController
             'password' => 'required|min:8|confirmed',
         ]);
 
-        if ($context->channel('token')->validate(TokenEnum::Forgot->value)) {
+        if ($context->channel('token')->validate(TokenEnum::FORGOT->value)) {
             throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID);
         }
 

@@ -16,7 +16,7 @@ final class TokenForgotEmail implements TokenPayloadInterface
     {
         return [
             'id' => $this->id,
-            'resource' => TokenEnum::Forgot,
+            'resource' => TokenEnum::FORGOT,
         ];
     }
 
