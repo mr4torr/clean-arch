@@ -25,7 +25,7 @@ This will start the cli-server on port `9501`, and bind it to all network interf
 
 ```
 ./bin: arquivos facilitadores do projetos, acessar container docker, reiniciar serviços e etc...
-./config: arquivos de configuração do framework hyperf
+./config: arquivos de configuração do framework Hyperf
 ./doc
   ./rest: arquivos de documentação dos endpoints
 ./migrations:
@@ -51,3 +51,9 @@ This will start the cli-server on port `9501`, and bind it to all network interf
     ./Support: Classes genéricas
 ./test: arquivos de testes (desenvolvendo...)
 ```
+
+## Autenticação dos endpoints
+
+A aplicação utiliza api gateway para validar o jwt, não sendo necessário middleware para validar o token.
+
+Os endpoints disponiveis estão mapeados nos arquivos `*.http` localizados no `./doc/rest`
