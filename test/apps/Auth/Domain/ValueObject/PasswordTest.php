@@ -12,13 +12,8 @@ declare(strict_types=1);
 
 namespace HyperfTest\Apps\Auth\Domain\ValueObject;
 
-use Auth\Domain\Dao\CredentialDaoInterface;
-use Auth\Domain\Dao\UserDaoInterface;
-use Auth\Domain\Dto\SignUpDto;
-use Auth\Domain\SignUp;
 use Auth\Domain\ValueObject\Password;
 use Hyperf\Testing\TestCase;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Shared\Exception\FieldException;
 
 /**

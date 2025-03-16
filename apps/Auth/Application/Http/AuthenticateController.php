@@ -5,26 +5,50 @@ declare(strict_types=1);
 namespace Auth\Application\Http;
 
 // Shared -
-use Shared\Http\AbstractController;
 
+use App\Domain\Jwt\TokenInterface;
+use Auth\Domain\Token\TokenPayload;
+use Auth\Infrastructure\Dao\SessionDao;
+use Psr\Http\Message\ServerRequestInterface;
+use Shared\Exception\BusinessException;
+use Shared\Http\AbstractController;
+use Shared\Http\Enums\ErrorCodeEnum;
+
+/**
+ * Classe responsável por validar o token JWT do usuário via api gateway do nginx
+ */
 class AuthenticateController extends AbstractController
 {
-    private string $secretKey;
+    public function __invoke(
+        ServerRequestInterface $request,
+        TokenInterface $token,
+        SessionDao $session
+    ): void {
+        $bearerToken = $request->getHeader("Authorization");
+        $message = "";
+        if ($target = $request->getHeader("X-target")) {
+            $message = 'endpoint: ' . current($target);
+        }
 
-    public function __construct()
-    {
-        $this->secretKey = "JWT_SECRET_KEY";
-    }
+        if (empty($bearerToken)) {
+            throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_EMPTY, $message);
+        }
 
-    public function __invoke()
-    {
-        $email = $this->request->get("email");
-        $password = $this->request->get("password");
+        try {
+            $decoded = $token->decode(substr($bearerToken[0], 7));
+            if (!array_key_exists("resource", $decoded) || $decoded["resource"] !== TokenPayload::RESOURCE_TYPE) {
+                throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID, $message);
+            }
 
-        // $token = JwtLocation::encode($tokenPayload, $this->jwtSecretKey, "HS256");
-        return [
-                // "method" => $method,
-                // "message" => "Hello {$user}.",
-            ];
+            if (!array_key_exists("id", $decoded) || !array_key_exists("session_id", $decoded)) {
+                throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID, $message);
+            }
+
+            if (!$session->exists($decoded["session_id"])) {
+                throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID, $message);
+            }
+        } catch (\Exception $e) {
+            throw new BusinessException(ErrorCodeEnum::AUTH_JWT_KEY_INVALID, $message, $e);
+        }
     }
 }

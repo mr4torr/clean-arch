@@ -45,6 +45,11 @@ class SessionDao implements SessionDaoInterface
         return $this->collection(Db::table($this->table)->where("user_id", (string) $id)->get($columns));
     }
 
+    public function exists(string $id): bool
+    {
+        return Db::table($this->table)->where("id", (string) $id)->exists();
+    }
+
     private function collection(Collection $collection): array
     {
         return $collection->map(fn($item) => Session::instantiate((array) $item))->toArray();

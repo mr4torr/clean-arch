@@ -8,8 +8,10 @@ Content-Type: {{ contentType }}
 
 ###
 
-GET {{host}}/authenticate HTTP/1.1
-content-type: {{contentType}}
+GET /auth/authenticate
+Host: {{ host }}
+Content-Type: {{ contentType }}
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBFOVo0OVpDMzlBNlBGNzEzWTEyUzNOIiwicmVzb3VyY2UiOiJhdXRob3JpemF0aW9uIiwiaWF0IjoxNzQyMDg5NDU3LCJleHAiOjE3NDIwOTMwNTd9.Av-7991RYqOt4huJ_jLMZeRsEamnyaHmEa72xXAVa9Y
 
 ###
 
@@ -94,7 +96,7 @@ Content-Type: {{ contentType }}
 
 ###
 
-GET /auth/active-sessions
+GET /sessions
 Host: {{ host }}
 Content-Type: {{ contentType }}
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBEWjVINzcyVEdaOFpSU0RCSzdIUEdFIiwicmVzb3VyY2UiOiJhdXRob3JpemF0aW9uIiwiaWF0IjoxNzQyMDc4MTMzLCJleHAiOjE3NDIwODE3MzN9.OQCu4CbORs4CNm252w7k_1E4eRdqt4wUrGanZvdDGQQ
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBFQVFRNkhBQjFaMlBDSDk2VlFWUEJEIiwicmVzb3VyY2UiOiJhdXRob3JpemF0aW9uIiwiaWF0IjoxNzQyMDkwMjYzLCJleHAiOjE3NDIwOTM4NjN9.xzHhwmc9Vjw8FHl5hVJjPXOGmsqu2enNt00au437NpA

@@ -19,7 +19,6 @@ services:
     build:
       context: .
       dockerfile: _docker/dev/swoole/Dockerfile
-    # user: "${UID}:${GID}"
     volumes:
       - ./:/opt/www
     networks:
@@ -32,7 +31,6 @@ services:
       - SCAN_CACHEABLE=false
       # Database
       - DB_DRIVER=pgsql
-      # - DB_HOST=127.0.0.1
       - DB_HOST=pgsql
       - DB_PORT=5432
       - DB_DATABASE=app

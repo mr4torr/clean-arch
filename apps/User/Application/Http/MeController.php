@@ -5,22 +5,17 @@ declare(strict_types=1);
 namespace User\Application\Http;
 
 use Psr\Http\Message\ResponseInterface;
-use Hyperf\Contract\ContainerInterface;
-use Hyperf\Di\Annotation\Inject;
 // Shared -
+use Shared\Context\AuthContext;
 use Shared\Http\AbstractController;
 // Domain -
 use User\Domain\Dao\UserDaoInterface;
 
 class MeController extends AbstractController
 {
-    #[Inject]
-    private ContainerInterface $cont;
-
-    public function __invoke(UserDaoInterface $userDao): ResponseInterface
+    public function __invoke(UserDaoInterface $userDao, AuthContext $context): ResponseInterface
     {
-        $user = $this->cont->get("user");
-        $user = $userDao->find($user["id"]);
+        $user = $userDao->find($context->getUserId());
         return $this->response->success($user);
     }
 }

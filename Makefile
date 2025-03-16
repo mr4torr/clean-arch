@@ -16,7 +16,6 @@ clear:
 # bash -c "env UID=1000 GID=1000 docker compose -f docker-compose.dev.yml up -d; ./bin/watch; docker compose down; pkill fswatch"
 .PHONY: dev
 dev:
-	# bash -c "docker compose -f docker-compose.dev.yml up -d; make clear; ./bin/watch; docker compose down; pkill fswatch"
 	bash -c "docker compose -f docker-compose.dev.yml up;"
 
 .PHONY: test
@@ -34,6 +33,14 @@ log:
 stop:
 	docker compose down
 
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # Setup # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+.PHONY: setup
+setup:
+	./bin/console migrate:install;
+	./bin/console app:migrate Auth
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # Migration # #
