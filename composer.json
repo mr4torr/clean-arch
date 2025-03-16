@@ -52,10 +52,10 @@
   },
   "autoload": {
     "psr-4": {
-      "App\\": "src/",
-      "Auth\\": "apps/Auth/",
-      "User\\": "apps/User/",
-      "Shared\\": "apps/Shared/"
+      "Auth\\": "src/Module/Auth/",
+      "User\\": "src/Module/User/",
+      "Core\\": "src/Core/",
+      "Shared\\": "src/Shared/"
     },
     "files": []
   },

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Application\Http\RequestFactory;
-use App\Application\Http\ResponseFactory;
-use App\Application\Exception\Handler\HttpExceptionHandler;
-use App\Domain\Mailer\MailerBuilder;
-use App\Domain\Mailer\MailerBuilderInterface;
-use App\Domain\Mailer\MailerServiceInterface;
-use App\Infrastructure\Mailer\MailerService;
+use Core\Application\Http\RequestFactory;
+use Core\Application\Http\ResponseFactory;
+use Core\Application\Exception\Handler\HttpExceptionHandler;
+use Core\Domain\Mailer\MailerBuilder;
+use Core\Domain\Mailer\MailerBuilderInterface;
+use Core\Domain\Mailer\MailerServiceInterface;
+use Core\Infrastructure\Mailer\MailerService;
 // --
 use Shared\Exception\AppExceptionInterface;
 use Shared\Http\RequestFactoryInterface;
@@ -27,8 +27,8 @@ use Auth\Domain\Dao\UserDaoInterface as AuthUserDaoInterface;
 use User\Domain\Dao\UserDaoInterface;
 use User\Infrastructure\Dao\UserDao;
 
-use App\Domain\Jwt\TokenInterface;
-use App\Infrastructure\Jwt\Token;
+use Core\Domain\Jwt\TokenInterface;
+use Core\Infrastructure\Jwt\Token;
 
 /**
  * This file is part of Hyperf.
