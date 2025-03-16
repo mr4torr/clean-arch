@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Core\Infrastructure\Support;
 
+use Core\Domain\Support\IpAddressInterface;
 use Hyperf\Context\Context;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\HttpServer\Contract\RequestInterface;
 
-class IpAddress
+class IpAddress implements IpAddressInterface
 {
     public function __construct(private ConfigInterface $config, private RequestInterface $request)
     {
@@ -62,23 +65,6 @@ class IpAddress
         return Context::set($key, $realIP);
     }
 
-    private function isValidIP(string $ip, string $type = ''): bool
-    {
-        switch (strtolower($type)) {
-            case 'ipv4':
-                $flag = FILTER_FLAG_IPV4;
-                break;
-            case 'ipv6':
-                $flag = FILTER_FLAG_IPV6;
-                break;
-            default:
-                $flag = 0;
-                break;
-        }
-
-        return boolval(filter_var($ip, FILTER_VALIDATE_IP, $flag));
-    }
-
     public function ip2bin(string $ip): string
     {
         if ($this->isValidIP($ip, 'ipv6')) {
@@ -96,5 +82,22 @@ class IpAddress
         }
 
         return $IPBin;
+    }
+
+    private function isValidIP(string $ip, string $type = ''): bool
+    {
+        switch (strtolower($type)) {
+            case 'ipv4':
+                $flag = FILTER_FLAG_IPV4;
+                break;
+            case 'ipv6':
+                $flag = FILTER_FLAG_IPV6;
+                break;
+            default:
+                $flag = 0;
+                break;
+        }
+
+        return boolval(filter_var($ip, FILTER_VALIDATE_IP, $flag));
     }
 }

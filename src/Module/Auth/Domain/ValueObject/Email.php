@@ -4,18 +4,10 @@ declare(strict_types=1);
 
 namespace Auth\Domain\ValueObject;
 
-use Shared\Exception\FieldException;
-
 final class Email
 {
     public function __construct(private readonly string $email)
     {
-        $this->validate();
-    }
-
-    public function toString(): string
-    {
-        return $this->email;
     }
 
     public function __toString(): string
@@ -23,10 +15,13 @@ final class Email
         return $this->toString();
     }
 
-    private function validate(): void
+    public function toString(): string
     {
-        if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
-            throw new FieldException(["email" => sprintf("The email <%s> is not valid", $this->email)]);
-        }
+        return $this->email;
+    }
+
+    public function validate(): bool
+    {
+        return filter_var($this->email, FILTER_VALIDATE_EMAIL) !== false;
     }
 }

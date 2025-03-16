@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Auth\Infrastructure\Dao;
 
+use Auth\Domain\Dao\CredentialDaoInterface;
+use Auth\Domain\Entity\Credential;
+use Auth\Domain\Enum\ProviderEnum;
+// Domain -
 use Carbon\Carbon;
 use Hyperf\DbConnection\Db;
 use Symfony\Component\Uid\Ulid;
-// Domain -
-use Auth\Domain\Entity\Credential;
-use Auth\Domain\Enum\ProviderEnum;
-use Auth\Domain\Dao\CredentialDaoInterface;
 
 class CredentialDao implements CredentialDaoInterface
 {
-    private string $table = "auth_credentials";
+    private string $table = 'auth_credentials';
 
     public function create(Credential $credential): ?Credential
     {
@@ -23,13 +23,13 @@ class CredentialDao implements CredentialDaoInterface
         $credential->updated_at = $credential->created_at;
 
         $insert = Db::table($this->table)->insert([
-            "id" => $credential->id,
-            "user_id" => $credential->user_id,
-            "provider" => $credential->provider,
-            "hash" => $credential->hash,
-            "status" => $credential->status,
-            "created_at" => $credential->created_at,
-            "updated_at" => $credential->updated_at,
+            'id' => $credential->id,
+            'user_id' => $credential->user_id,
+            'provider' => $credential->provider,
+            'hash' => $credential->hash,
+            'status' => $credential->status,
+            'created_at' => $credential->created_at,
+            'updated_at' => $credential->updated_at,
         ]);
 
         return $insert ? $credential : null;
@@ -40,10 +40,10 @@ class CredentialDao implements CredentialDaoInterface
         return Db::table($this->table)->delete($id) > 0;
     }
 
-    public function findByUserId(string $id, array $columns = ["*"]): ?Credential
+    public function findByUserId(string $id, array $columns = ['*']): ?Credential
     {
         return $this->resource(
-            Db::table($this->table)->where("user_id", (string) $id)->where("status", true)->first($columns)
+            Db::table($this->table)->where('user_id', (string) $id)->where('status', true)->first($columns)
         );
     }
 
@@ -51,12 +51,12 @@ class CredentialDao implements CredentialDaoInterface
     {
         return Db::table($this->table)
             ->where([
-                "user_id" => $userId,
-                "provider" => $provider->value,
+                'user_id' => $userId,
+                'provider' => $provider->value,
             ])
             ->update([
-                "status" => $status,
-                "updated_at" => Carbon::now(),
+                'status' => $status,
+                'updated_at' => Carbon::now(),
             ]) > 0;
     }
 

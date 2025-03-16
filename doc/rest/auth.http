@@ -11,7 +11,7 @@ Content-Type: {{ contentType }}
 GET /auth/authenticate
 Host: {{ host }}
 Content-Type: {{ contentType }}
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBFOVo0OVpDMzlBNlBGNzEzWTEyUzNOIiwicmVzb3VyY2UiOiJhdXRob3JpemF0aW9uIiwiaWF0IjoxNzQyMDg5NDU3LCJleHAiOjE3NDIwOTMwNTd9.Av-7991RYqOt4huJ_jLMZeRsEamnyaHmEa72xXAVa9Y
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBHNEhGWkgxR01COUtXUENGMUhCMU1LIiwicmVzb3VyY2UiOiJhdXRob3JpemF0aW9uIiwiaWF0IjoxNzQyMTUwODc3LCJleHAiOjE3NDIxNTQ0Nzd9.mnLXi_Ch5vyDSdTQxjyDohNcjSiN6gGy7s_g3JR191U
 
 ###
 
@@ -32,7 +32,7 @@ Content-Type: {{ contentType }}
 
 {
     "name": "Admin",
-    "email": "admin@example.com",
+    "email": "admin2@example.com",
     "password": "P@ssw0rD",
     "password_confirmation": "P@ssw0rD"
 }
@@ -54,7 +54,7 @@ Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "email": "admin@example.com"
+    "email": "admin10@example.com"
 }
 
 ###
@@ -64,7 +64,7 @@ Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "email": "admin@example.com"
+    "email": "admin10@example.com"
 }
 
 
@@ -76,7 +76,7 @@ Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3IiwicmVzb3VyY2UiOiJmb3Jnb3QiLCJpYXQiOjE3NDIwNzY5NzUsImV4cCI6MTc0MjA4MDU3NX0.-IAcLea8-oLLUUMtrvPMjinCFsN0zZvqxxlxO7q38G8",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBHNEhGWkgxR01COUtXUENGMUhCMU1LIiwicmVzb3VyY2UiOiJhdXRob3JpemF0aW9uIiwiaWF0IjoxNzQyMTUwODc3LCJleHAiOjE3NDIxNTQ0Nzd9.mnLXi_Ch5vyDSdTQxjyDohNcjSiN6gGy7s_g3JR191U",
     "password": "P@ssw0rD",
     "password_confirmation": "P@ssw0rD"
 }
@@ -90,13 +90,12 @@ Host: {{ host }}
 Content-Type: {{ contentType }}
 
 {
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBEWUowUU1IUjdIS1c2SzZZQ1lSSk5NIiwicmVzb3VyY2UiOiJyZWZyZXNoIiwiaWF0IjoxNzQyMDc3NDk0LCJleHAiOjE3NDIxNjM4OTR9.d7fyU0k8JmVa93hjZ1MnpOAFsiVYbEDUL6i3YKKEhPM"
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBHNEhGWkgxR01COUtXUENGMUhCMU1LIiwicmVzb3VyY2UiOiJhdXRob3JpemF0aW9uIiwiaWF0IjoxNzQyMTUwODc3LCJleHAiOjE3NDIxNTQ0Nzd9.mnLXi_Ch5vyDSdTQxjyDohNcjSiN6gGy7s_g3JR191U"
 }
 
 
 ###
-
 GET /sessions
 Host: {{ host }}
 Content-Type: {{ contentType }}
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBFQVFRNkhBQjFaMlBDSDk2VlFWUEJEIiwicmVzb3VyY2UiOiJhdXRob3JpemF0aW9uIiwiaWF0IjoxNzQyMDkwMjYzLCJleHAiOjE3NDIwOTM4NjN9.xzHhwmc9Vjw8FHl5hVJjPXOGmsqu2enNt00au437NpA
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjAxSlBEVldLOFA3NDVEMVpLU0U0MUQ5N0Q3Iiwic2Vzc2lvbl9pZCI6IjAxSlBHNEhGWkgxR01COUtXUENGMUhCMU1LIiwicmVzb3VyY2UiOiJhdXRob3JpemF0aW9uIiwiaWF0IjoxNzQyMTUwODc3LCJleHAiOjE3NDIxNTQ0Nzd9.mnLXi_Ch5vyDSdTQxjyDohNcjSiN6gGy7s_g3JR191U

@@ -10,9 +10,14 @@ use Auth\Domain\ValueObject\Email;
 interface UserDaoInterface
 {
     public function create(User $user): ?User;
+
     public function delete(string $id): bool;
-    public function find(string $id, array $columns = ["*"]): ?User;
-    public function findByEmail(Email $email, array $columns = ["*"]): ?User;
+
+    public function find(string $id, array $columns = ['*']): ?User;
+
+    public function findByEmail(Email $email, array $columns = ['*']): ?User;
+
     public function verified(User $user): bool;
+
     public function emailAlreadyExists(Email $email): bool;
 }

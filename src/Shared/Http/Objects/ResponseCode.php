@@ -8,7 +8,9 @@ use Shared\Http\Enums\StatusCodeEnum;
 
 class ResponseCode
 {
-    function __construct(public readonly string $message, public readonly StatusCodeEnum $statusCode) {}
+    public function __construct(public readonly string $message, public readonly StatusCodeEnum $statusCode)
+    {
+    }
 
     public static function make(string $message, StatusCodeEnum $statusCode): self
     {

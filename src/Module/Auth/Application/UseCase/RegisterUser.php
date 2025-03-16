@@ -2,48 +2,57 @@
 
 declare(strict_types=1);
 
-namespace Auth\Domain;
+namespace Auth\Application\UseCase;
 
-// Shared -
+use Auth\Domain\Dao\CredentialDaoInterface;
+use Auth\Domain\Dao\UserDaoInterface;
+use Auth\Domain\Dto\Input\SignUpDto;
+use Auth\Domain\Email\SendEmailInterface;
+use Auth\Domain\Entity\Credential;
+use Auth\Domain\Entity\User;
+use Shared\Exception\BusinessException;
 use Shared\Exception\FieldException;
 use Shared\Http\Enums\ErrorCodeEnum;
 use Shared\Http\Enums\ValidationCodeEnum;
-use Shared\Exception\BusinessException;
-// Domain -
-use Auth\Domain\Entity\User;
-use Auth\Domain\Dto\SignUpDto;
-use Auth\Domain\Entity\Credential;
-use Auth\Domain\Dao\UserDaoInterface;
-use Auth\Domain\Dao\CredentialDaoInterface;
-use Auth\Domain\Email\SendEmailInterface;
+use Throwable;
 
-class SignUp
+class RegisterUser
 {
     public function __construct(
         private UserDaoInterface $userDao,
         private CredentialDaoInterface $credentialDao,
         private SendEmailInterface $sendEmail
-    ) {}
+    ) {
+    }
 
-    public function make(SignUpDto $input): User
-    {
+    public function make(
+        SignUpDto $input
+    ): User {
+        if (!$input->email->validate()) {
+            throw new FieldException(['email' => ValidationCodeEnum::EMAIL_INVALID]);
+        }
+
+        if (!$input->password->validate()) {
+            throw new FieldException(['password' => ValidationCodeEnum::PASSWORDS_NOT_MATCH]);
+        }
+
         if ($this->userDao->emailAlreadyExists($input->email)) {
-            throw new FieldException(["email" => ValidationCodeEnum::DUPLICATED]);
+            throw new FieldException(['email' => ValidationCodeEnum::DUPLICATED]);
         }
 
         try {
             $user = $this->userDao->create(new User($input->name, $input->email));
             if (!$user) {
-                throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, "auth.error.sign_up_user");
+                throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, 'auth.error.sign_up_user');
             }
 
             $credential = $this->credentialDao->create(
                 new Credential(user_id: $user->id, hash: (string) $input->password, provider: $input->provider)
             );
             if (!$credential) {
-                throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, "auth.error.sign_up_credential");
+                throw new BusinessException(ErrorCodeEnum::INTERNAL_SERVER_ERROR, 'auth.error.sign_up_credential');
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             if (isset($user)) {
                 $this->userDao->delete($user->id);
             }

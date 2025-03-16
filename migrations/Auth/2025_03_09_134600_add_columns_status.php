@@ -1,12 +1,13 @@
 <?php
 
-use Auth\Domain\Enum\UserStatusEnum;
-use Hyperf\Database\Schema\Schema;
-use Hyperf\Database\Schema\Blueprint;
-use Hyperf\Database\Migrations\Migration;
+declare(strict_types=1);
 
-return new class extends Migration
-{
+use Auth\Domain\Enum\UserStatusEnum;
+use Hyperf\Database\Migrations\Migration;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Schema\Schema;
+
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,9 +15,9 @@ return new class extends Migration
     {
         Schema::table('auth_users', function (Blueprint $table): void {
             $table
-                ->enum("status", array_column(UserStatusEnum::cases(), "value"))
+                ->enum('status', array_column(UserStatusEnum::cases(), 'value'))
                 ->default(UserStatusEnum::default()->value);
-            $table->string("reason_status")->nullable();
+            $table->string('reason_status')->nullable();
         });
     }
 

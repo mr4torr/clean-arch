@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Auth\Domain\Dto;
+namespace Auth\Domain\Dto\Input;
 
 use Auth\Domain\Enum\ProviderEnum;
 use Auth\Domain\ValueObject\Email;
@@ -15,7 +15,8 @@ final class SignUpDto
         public readonly Email $email,
         public readonly Password $password,
         public readonly ProviderEnum $provider = ProviderEnum::API
-    ) {}
+    ) {
+    }
 
     public static function make(string $name, string $email, string $password, string $provider): self
     {

@@ -48,7 +48,6 @@ main() {
 }
 
 # Rodando monitoramento em paralelo para os dois diretórios
-main "./apps" "app" &
 main "./src" "app" &
 main "./config" "app" &
 # main "./apps/Auth" "app-auth" &

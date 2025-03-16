@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Auth\Domain\Token;
+
+use Auth\Domain\Enum\TokenEnum;
 
 final class TokenPayloadRefresh extends AbstractTokenPayload
 {
-    public const RESOURCE_TYPE = 'refresh';
-
     public function toArray(): array
     {
-        return [...parent::toArray(), "resource" => self::RESOURCE_TYPE];
+        return [...parent::toArray(), 'resource' => TokenEnum::Refresh];
     }
 
     public function expiresAt(): int

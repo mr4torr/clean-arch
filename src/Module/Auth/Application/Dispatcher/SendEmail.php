@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Auth\Application\Dispatcher;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
-// Shared -
-use Core\Domain\Jwt\TokenInterface;
-use Core\Domain\Mailer\MailerBuilderInterface;
-// Domain -
 use Auth\Application\Event\SendEmailEvent;
-use Auth\Domain\Entity\User;
 use Auth\Domain\Email\SendEmailInterface;
+use Auth\Domain\Entity\User;
+use Auth\Domain\Token\TokenConfirmationEmail;
 use Auth\Domain\Token\TokenForgotEmail;
 use Auth\Domain\Token\TokenPayloadInterface;
-use Auth\Domain\Token\TokenConfirmationEmail;
+use Core\Domain\Jwt\TokenInterface;
+use Core\Domain\Mailer\MailerBuilderInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 class SendEmail implements SendEmailInterface
 {
@@ -22,13 +20,14 @@ class SendEmail implements SendEmailInterface
         private TokenInterface $token,
         private EventDispatcherInterface $eventDispatcher,
         private MailerBuilderInterface $mailerBuilder
-    ) {}
+    ) {
+    }
 
     public function sendForgotEmail(User $user): void
     {
         $builder = $this->builder($user, new TokenForgotEmail($user->id))
-            ->subject("{{appName}} - Recuperação de conta!")
-            ->template(dirname(__DIR__, 2) . "/Domain/Email/template/forgot.html");
+            ->subject('{{appName}} - Recuperação de conta!')
+            ->template(dirname(__DIR__, 2) . '/Domain/Email/template/forgot.html');
 
         $this->eventDispatcher->dispatch(new SendEmailEvent($builder));
     }
@@ -36,8 +35,8 @@ class SendEmail implements SendEmailInterface
     public function sendConfirmationEmail(User $user): void
     {
         $builder = $this->builder($user, new TokenConfirmationEmail($user->id))
-            ->subject("{{appName}} - Ativação de conta!")
-            ->template(dirname(__DIR__, 2) . "/Domain/Email/template/sign-up.html");
+            ->subject('{{appName}} - Ativação de conta!')
+            ->template(dirname(__DIR__, 2) . '/Domain/Email/template/sign-up.html');
 
         $this->eventDispatcher->dispatch(new SendEmailEvent($builder));
     }
@@ -46,8 +45,8 @@ class SendEmail implements SendEmailInterface
     {
         return $this->mailerBuilder
             ->to((string) $user->email, $user->name)
-            ->addParam("name", $user->name)
-            ->addParam("email", (string) $user->email)
-            ->addParam("token", $this->token->encode($token->toArray(), $token->expiresAt()));
+            ->addParam('name', $user->name)
+            ->addParam('email', (string) $user->email)
+            ->addParam('token', $this->token->encode($token->toArray(), $token->expiresAt()));
     }
 }

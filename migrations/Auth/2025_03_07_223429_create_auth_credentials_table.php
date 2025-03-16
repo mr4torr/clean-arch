@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use Auth\Domain\Enum\ProviderEnum;
-use Hyperf\Database\Schema\Schema;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Migrations\Migration;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Schema\Schema;
 
 return new class extends Migration {
     /**
@@ -11,12 +13,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create("auth_credentials", function (Blueprint $table) {
-            $table->ulid("id")->primary();
-            $table->foreignUlid("user_id")->constrained("auth_users")->onDelete("cascade");
-            $table->string("hash");
-            $table->string("provider", 12)->default(ProviderEnum::API->value);
-            $table->boolean("status")->default(false);
+        Schema::create('auth_credentials', function (Blueprint $table): void {
+            $table->ulid('id')->primary();
+            $table->foreignUlid('user_id')->constrained('auth_users')->onDelete('cascade');
+            $table->string('hash');
+            $table->string('provider', 12)->default(ProviderEnum::API->value);
+            $table->boolean('status')->default(false);
             $table->timestampsTz();
         });
 
@@ -32,7 +34,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists("auth_credentials");
+        Schema::dropIfExists('auth_credentials');
         // Schema::dropIfExists("auth_reset_credentials");
     }
 };

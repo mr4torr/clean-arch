@@ -10,7 +10,6 @@ enum StatusCodeEnum: int
     case SWITCHING_PROTOCOLS = 101;
     case PROCESSING = 102;
     case EARLY_HINTS = 103;
-
     case OK = 200;
     case CREATED = 201;
     case ACCEPTED = 202;
@@ -21,7 +20,6 @@ enum StatusCodeEnum: int
     case MULTI_STATUS = 207;
     case ALREADY_REPORTED = 208;
     case IM_USED = 226;
-
     case MULTIPLE_CHOICES = 300;
     case MOVED_PERMANENTLY = 301;
     case FOUND = 302;
@@ -30,7 +28,6 @@ enum StatusCodeEnum: int
     case USE_PROXY = 305;
     case TEMPORARY_REDIRECT = 307;
     case PERMANENT_REDIRECT = 308;
-
     case BAD_REQUEST = 400;
     case UNAUTHORIZED = 401;
     case PAYMENT_REQUIRED = 402;
@@ -60,7 +57,6 @@ enum StatusCodeEnum: int
     case TOO_MANY_REQUESTS = 429;
     case REQUEST_HEADER_FIELDS_TOO_LARGE = 431;
     case UNAVAILABLE_FOR_LEGAL_REASONS = 451;
-
     case INTERNAL_SERVER_ERROR = 500;
     case NOT_IMPLEMENTED = 501;
     case BAD_GATEWAY = 502;

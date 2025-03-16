@@ -1,18 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Auth\Domain\Token;
+
+use Auth\Domain\Enum\TokenEnum;
 
 final class TokenForgotEmail implements TokenPayloadInterface
 {
-    public const RESOURCE_TYPE = 'forgot';
-
-    public function __construct(public readonly string $id) {}
+    public function __construct(public readonly string $id)
+    {
+    }
 
     public function toArray(): array
     {
         return [
-            "id" => $this->id,
-            "resource" => self::RESOURCE_TYPE
+            'id' => $this->id,
+            'resource' => TokenEnum::Forgot,
         ];
     }
 

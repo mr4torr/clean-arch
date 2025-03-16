@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shared\Support;
 
 use ReflectionClass;
@@ -10,7 +12,6 @@ class ArrayToObject
      * @template T of object
      *
      * @param class-string<T> $className
-     * @param array $inputs
      *
      * @return ?T
      *
@@ -22,11 +23,6 @@ class ArrayToObject
         return new $className(...$arguments);
     }
 
-    /**
-     * @param string $className
-     * @param array $inputs
-     * @return array
-     */
     public static function extract(string $className, array $inputs): array
     {
         $reflectionClass = new ReflectionClass($className);
@@ -43,8 +39,8 @@ class ArrayToObject
                 $value = $parameter->getDefaultValue();
             }
 
-            if (is_string($type) && \strpos($type, "\\") !== false) {
-                if (str_ends_with($type, "Enum")) {
+            if (is_string($type) && \str_contains($type, '\\')) {
+                if (str_ends_with($type, 'Enum')) {
                     $arguments[$name] = is_string($value) ? $type::tryFrom($value) : $value;
                     continue;
                 }

@@ -21,39 +21,49 @@ make dev
 This will start the cli-server on port `9501`, and bind it to all network interfaces. You can then visit the site at `http://localhost/` which will bring up Hyperf default home page.
 
 
-# Estrutura
+# Structure
 
 ```
-./bin: arquivos facilitadores do projetos, acessar container docker, reiniciar serviços e etc...
-./config: arquivos de configuração do framework Hyperf
+./bin: files that facilitate the project, access the Docker container, restart services, etc...
+./config: Hyperf framework configuration files
 ./doc
-  ./rest: arquivos de documentação dos endpoints
+  ./rest: endpoint documentation files
 ./migrations:
-  ./Auth: arquivos de migrations do componente de autenticação
+./Auth: authentication component migration files
 ./src:
-  ./Core: Aqui ficam os arquivos que tem mais ligação com o framework
+  ./Core: Here are the files that are most closely related to the framework
     ./Application
     ./Domain
     ./Infrastructure
-  ./Module: onde fica os recursos do projeto
-    ./Auth: Componente de autenticação e autorização
+  ./Module: where the project resources are located
+    ./Auth: Authentication and authorization component
       ./Application
       ./Domain
       ./Infrastructure
-    ./User: Componente de usuário, dados básicos como endereço e etc
+      ./Presentation
+    ./User: User component, basic data such as address, etc.
       ./Application
       ./Domain
       ./Infrastructure
-  ./Shared: Recursos compartilhados
-    ./Context: Contexto da aplicação
-    ./Exception: Exceções da aplicação
-    ./Http: Requisições e respostas
-    ./Support: Classes genéricas
-./test: arquivos de testes (desenvolvendo...)
+      ./Presentation
+  ./Shared: Shared resources
+    ./Context: Application context
+    ./Exception: Application exceptions
+    ./Http: Requests and responses
+    ./Support: Generic classes
+./test: test files (developing...)
 ```
 
-## Autenticação dos endpoints
+# Authentication
 
-A aplicação utiliza api gateway para validar o jwt, não sendo necessário middleware para validar o token.
+Authentication is done using the jwt token, the token must be sent in the `Authorization` header with the value `Bearer <token>`.
 
-Os endpoints disponiveis estão mapeados nos arquivos `*.http` localizados no `./doc/rest`
+## Authentication token validation
+
+The application uses Nginx API Gateway, so no middleware is needed to validate the token.
+
+Nginx makes a call to `/auth/authenticate` where the token is validated, this endpoint is stored in the cache for 1 minute to avoid overloading multiple requests.
+
+# Endpoint documentation
+
+The available endpoints are mapped in the `*.http` files located in `./doc/rest`

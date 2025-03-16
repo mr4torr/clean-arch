@@ -6,7 +6,7 @@ namespace Auth\Domain\Enum;
 
 enum ProviderEnum: string
 {
-    case API = "api";
+    case API = 'api';
 
     public static function default(): self
     {

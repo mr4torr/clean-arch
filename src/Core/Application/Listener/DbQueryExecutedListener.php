@@ -1,14 +1,6 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of Hyperf.
- *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
- */
 
 namespace Core\Application\Listener;
 
@@ -25,6 +17,9 @@ class DbQueryExecutedListener implements ListenerInterface
 {
     private static LoggerInterface $logger;
 
+    /**
+     * @return string[]
+     */
     public function listen(): array
     {
         return [QueryExecuted::class];
@@ -37,10 +32,10 @@ class DbQueryExecutedListener implements ListenerInterface
     {
         if ($event instanceof QueryExecuted) {
             $sql = $event->sql;
-            if (!Arr::isAssoc($event->bindings)) {
+            if (! Arr::isAssoc($event->bindings)) {
                 $position = 0;
                 foreach ($event->bindings as $value) {
-                    $position = strpos($sql, "?", $position);
+                    $position = strpos($sql, '?', $position);
                     if ($position === false) {
                         break;
                     }
@@ -50,14 +45,14 @@ class DbQueryExecutedListener implements ListenerInterface
                 }
             }
 
-            self::logger()->info(sprintf("[%s] %s", $event->time, $sql));
+            self::logger()->info(sprintf('[%s] %s', $event->time, $sql));
         }
     }
 
     private static function logger(): LoggerInterface
     {
-        if (!isset(static::$logger)) {
-            self::$logger = ApplicationContext::getContainer()->get(LoggerFactory::class)->get("sql");
+        if (! isset(static::$logger)) {
+            self::$logger = ApplicationContext::getContainer()->get(LoggerFactory::class)->get('sql');
         }
 
         return self::$logger;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Core\Domain\Jwt;
@@ -10,5 +11,5 @@ interface TokenInterface
     /**
      * @return array<mixed>
      */
-    public function decode(string $token, string $fieldName = "token", bool $throw = false): array;
+    public function decode(string $token, string $fieldName = 'token', bool $throw = false): array;
 }

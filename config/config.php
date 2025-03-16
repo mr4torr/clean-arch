@@ -16,9 +16,9 @@ return [
     'secret' => env('SECRET', 'base64:3J6Q6Z3Z'),
     'scan_cacheable' => env('SCAN_CACHEABLE', false),
     StdoutLoggerInterface::class => [
-        "log_level" => match (env("APP_ENV")) {
-            "prod" => [LogLevel::ALERT, LogLevel::CRITICAL, LogLevel::EMERGENCY, LogLevel::ERROR],
-            "testing" => [LogLevel::ALERT, LogLevel::CRITICAL, LogLevel::EMERGENCY, LogLevel::ERROR],
+        'log_level' => match (env('APP_ENV')) {
+            'prod' => [LogLevel::ALERT, LogLevel::CRITICAL, LogLevel::EMERGENCY, LogLevel::ERROR],
+            'testing' => [LogLevel::ALERT, LogLevel::CRITICAL, LogLevel::EMERGENCY, LogLevel::ERROR],
             default => [
                 LogLevel::ALERT,
                 LogLevel::CRITICAL,

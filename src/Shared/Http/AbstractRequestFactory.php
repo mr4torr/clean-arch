@@ -9,7 +9,9 @@ use Shared\Support\ArrayToObject;
 
 abstract class AbstractRequestFactory implements RequestFactoryInterface
 {
-    public function __construct(private ServerRequestInterface $serverRequest) {}
+    public function __construct(private ServerRequestInterface $serverRequest)
+    {
+    }
 
     public function all(): array
     {
@@ -34,6 +36,11 @@ abstract class AbstractRequestFactory implements RequestFactoryInterface
     public function getHeaders(): array
     {
         return array_map('current', $this->serverRequest->getHeaders());
+    }
+
+    public function getHeader(string $key): ?string
+    {
+        return $this->getHeaders()[strtolower($key)] ?? null;
     }
 
     public function getMethod(): string

@@ -18,7 +18,8 @@ final class RequestFactory extends AbstractRequestFactory
         parent::__construct($serverRequest);
     }
 
-    public function validate(array $rules, array $messages = []): void {
+    public function validate(array $rules, array $messages = []): void
+    {
         $validator = $this->validation->make($this->all(), $rules, $messages);
 
         if ($validator->fails()) {

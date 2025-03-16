@@ -1,35 +1,34 @@
 <?php
 
 declare(strict_types=1);
-/**
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
+
+/*
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-$header = <<<'EOF'
-This file is part of Hyperf.
 
-@link     https://www.hyperf.io
-@document https://hyperf.wiki
-@contact  group@hyperf.io
-@license  https://github.com/hyperf/hyperf/blob/master/LICENSE
-EOF;
-
-return (new PhpCsFixer\Config())
+return (new Config())
+    ->setParallelConfig(ParallelConfigFactory::detect()) // @TODO 4.0 no need to call this manually
     ->setRiskyAllowed(true)
+    ->setUsingCache(false)
     ->setRules([
+        '@PHP83Migration' => true,
+        '@PHP82Migration:risky' => true,
         '@PSR2' => true,
+        '@PSR12' => true,
         '@Symfony' => true,
         '@DoctrineAnnotation' => true,
         '@PhpCsFixer' => true,
-        'header_comment' => [
-            'comment_type' => 'PHPDoc',
-            'header' => $header,
-            'separate' => 'none',
-            'location' => 'after_declare_strict',
+        'fully_qualified_strict_types' => [
+            'import_symbols' => true,
         ],
         'array_syntax' => [
             'syntax' => 'short',
@@ -79,6 +78,16 @@ return (new PhpCsFixer\Config())
         'constant_case' => [
             'case' => 'lower',
         ],
+        'phpdoc_to_property_type' => [ // experimental
+            'types_map' => [
+                'TFixerInputConfig' => 'array',
+                'TFixerComputedConfig' => 'array',
+                // 'TFixer' => '\PhpCsFixer\AbstractFixer',
+            ],
+        ],
+        'blank_lines_before_namespace' => true,
+        'blank_line_after_namespace' => true,
+        'no_leading_namespace_whitespace' => true,
         'class_attributes_separation' => true,
         'combine_consecutive_unsets' => true,
         'declare_strict_types' => true,
@@ -86,7 +95,7 @@ return (new PhpCsFixer\Config())
         'lowercase_static_reference' => true,
         'no_useless_else' => true,
         'no_unused_imports' => true,
-        'not_operator_with_successor_space' => true,
+        'not_operator_with_successor_space' => false,
         'not_operator_with_space' => false,
         'ordered_class_elements' => true,
         'php_unit_strict' => false,
@@ -97,10 +106,13 @@ return (new PhpCsFixer\Config())
         'single_line_empty_body' => false,
     ])
     ->setFinder(
-        PhpCsFixer\Finder::create()
+        Finder::create()
             ->exclude('public')
             ->exclude('runtime')
             ->exclude('vendor')
+            ->exclude('bin')
+            ->exclude('doc')
+            ->exclude('.phpunit.cache')
+            ->exclude('.git')
             ->in(__DIR__)
-    )
-    ->setUsingCache(false);
+    );

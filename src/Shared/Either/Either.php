@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shared\Either;
 
-/**
+/*
  * Precisa instalar o pacote illuminate/collections
  * composer require illuminate/collections
  */
+use Exception;
 use Illuminate\Support\Collection;
 
 /**
@@ -15,11 +18,12 @@ use Illuminate\Support\Collection;
 class Either
 {
     private Collection $left;
+
     private Collection $right;
 
     /**
-     * @param  iterable<TKey, TValue>|null $left
-     * @param  iterable<TKey, TValue>|null $right
+     * @param null|iterable<TKey, TValue> $left
+     * @param null|iterable<TKey, TValue> $right
      */
     private function __construct(array $left = [], array $right = [])
     {
@@ -36,7 +40,7 @@ class Either
     }
 
     /**
-     * @param  iterable<TKey, TValue>|null $values
+     * @param null|iterable<TKey, TValue> $values
      */
     public static function left(...$values): Either
     {
@@ -44,7 +48,7 @@ class Either
     }
 
     /**
-     * @param  iterable<TKey, TValue>|null $values
+     * @param null|iterable<TKey, TValue> $values
      */
     public static function right(...$values): Either
     {
@@ -55,13 +59,13 @@ class Either
     {
         try {
             return self::right($f());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return self::left($e);
         }
     }
 
     /**
-     * @param  iterable<TKey, TValue>|null $values
+     * @param null|iterable<TKey, TValue> $values
      */
     public function addRight(...$values): Either
     {
@@ -69,7 +73,7 @@ class Either
     }
 
     /**
-     * @param  iterable<TKey, TValue>|null $values
+     * @param null|iterable<TKey, TValue> $values
      */
     public function addLeft(...$values): Either
     {
@@ -101,7 +105,7 @@ class Either
     {
         $values = $this->values();
         if ($values->count() > 1) {
-            throw new \Exception("Either::value() called on a Either with multiple values");
+            throw new Exception('Either::value() called on a Either with multiple values');
         }
 
         return $this->values()->last();

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Shared\Exception;
 
-use Throwable;
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 interface AppExceptionInterface
 {

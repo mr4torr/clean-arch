@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Auth\Application\Http;
+namespace Auth\Presentation\Http;
 
+use Auth\Domain\Dao\SessionDaoInterface;
 use Psr\Http\Message\ResponseInterface;
-// Shared -
 use Shared\Context\AuthContext;
 use Shared\Http\AbstractController;
-// Domain -
-use Auth\Domain\Dao\SessionDaoInterface;
 
 class ActiveSessionsController extends AbstractController
 {

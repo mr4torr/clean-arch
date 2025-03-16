@@ -8,5 +8,7 @@ use Core\Domain\Mailer\MailerBuilderInterface;
 
 class SendEmailEvent
 {
-    public function __construct(public readonly MailerBuilderInterface $builder) {}
+    public function __construct(public readonly MailerBuilderInterface $builder)
+    {
+    }
 }

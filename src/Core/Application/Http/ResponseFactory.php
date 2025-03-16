@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Core\Application\Http;
 
-use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\HttpServer\Response as HyperfResponse;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 use Shared\Http\AbstractResponseFactory;
 
 final class ResponseFactory extends AbstractResponseFactory
 {
-    public function __construct(private HyperfResponse $response) {}
+    public function __construct(private HyperfResponse $response)
+    {
+    }
 
     protected function response(): PsrResponseInterface
     {

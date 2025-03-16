@@ -17,12 +17,12 @@ enum SuccessCodeEnum: int implements CodeEnumInterface
     public function get(): ResponseCode
     {
         return match ($this) {
-            self::OK => ResponseCode::make("success.common.ok", StatusCodeEnum::OK),
-            self::CREATED => ResponseCode::make("success.common.created", StatusCodeEnum::CREATED),
-            self::ACCEPTED => ResponseCode::make("success.common.accept", StatusCodeEnum::ACCEPTED),
-            self::NO_CONTENT => ResponseCode::make("success.common.no_content", StatusCodeEnum::NO_CONTENT),
+            self::OK => ResponseCode::make('success.common.ok', StatusCodeEnum::OK),
+            self::CREATED => ResponseCode::make('success.common.created', StatusCodeEnum::CREATED),
+            self::ACCEPTED => ResponseCode::make('success.common.accept', StatusCodeEnum::ACCEPTED),
+            self::NO_CONTENT => ResponseCode::make('success.common.no_content', StatusCodeEnum::NO_CONTENT),
             self::PARTIAL_CONTENT => ResponseCode::make(
-                "success.common.partial_content",
+                'success.common.partial_content',
                 StatusCodeEnum::PARTIAL_CONTENT
             ),
         };

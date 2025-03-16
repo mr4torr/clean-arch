@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace User\Application\Http;
+namespace User\Presentation\Http;
 
 use Psr\Http\Message\ResponseInterface;
-// Shared -
 use Shared\Context\AuthContext;
 use Shared\Http\AbstractController;
-// Domain -
 use User\Domain\Dao\UserDaoInterface;
 
 class MeController extends AbstractController

@@ -15,7 +15,7 @@ return [
     'driver' => ScanFileDriver::class,
     'bin' => PHP_BINARY,
     'watch' => [
-        'dir' => ['apps', 'src', 'config'],
+        'dir' => ['src', 'config'],
         'file' => ['.env'],
         'scan_interval' => 2000,
     ],
